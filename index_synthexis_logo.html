@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTHEXIS BIOTECH | Alta Performance</title>
+    <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="SYNTHEXIS BIOTECH | Alta Performance">
+    <meta property="og:description" content="Ciência, pureza e excelência para resultados reais em performance e estética avançada.">
+    <meta property="og:image" content="./images/logo.jpeg">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        synth: {
+                            bg: '#ffffff',
+                            card: '#f8fafc',
+                            text: '#0f172a',
+                            muted: '#64748b',
+                            blue: '#1d4ed8',
+                            lightbl: '#eff6ff',
+                            border: '#e2e8f0',
+                            accent: '#3b82f6'
+                        }
+                    },
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+
+    <!-- Lenis & GSAP -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .glass-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            transform: translateY(-3px);
+        }
+
+        .text-blue-gradient {
+            background: linear-gradient(to right, #1d4ed8, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: transform 0.8s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.02);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+
+</head>
+<body class="font-inter antialiased selection:bg-synth-blue selection:text-white relative bg-synth-bg">
+
+    <div class="noise-overlay"></div>
+
+    <!-- Mobile Header -->
+    <header class="md:hidden fixed top-0 left-0 w-full h-20 glass-panel z-40 flex items-center justify-between px-6 shadow-sm">
+        <div class="flex items-center gap-3">
+            <img src="./images/logo.jpeg" alt="Synthexis Logo" class="h-10 w-auto object-contain mix-blend-multiply" style="filter: contrast(1.1) brightness(1.05);">
+            <span class="font-sora tracking-widest text-xs uppercase font-semibold text-synth-text">SYNTHEXIS</span>
+        </div>
+    </header>
+
+    <!-- Sidebar Desktop -->
+    <nav class="hidden md:flex fixed left-0 top-0 h-screen w-24 glass-panel flex-col items-center justify-between py-10 z-40 border-r border-synth-border shadow-sm">
+        <div class="flex flex-col items-center w-full gap-8">
+            <img src="./images/logo.jpeg" alt="Synthexis Logo" class="w-20 h-auto px-1 object-contain mix-blend-multiply hover:scale-105 transition-transform" style="filter: contrast(1.1) brightness(1.05);">
+            <div class="w-full px-6 flex flex-col gap-6 mt-8">
+                <a href="#hero" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Início</span>
+                </a>
+                <a href="#portfolio" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+                    <i data-lucide="grid" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Produtos</span>
+                </a>
+                <a href="#lab" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+                    <i data-lucide="microscope" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Laudos</span>
+                </a>
+                <a href="#contact" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+                    <i data-lucide="key" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Acesso</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dock Mobile -->
+    <nav class="md:hidden fixed bottom-6 left-4 right-4 h-16 glass-panel rounded-2xl z-40 flex items-center justify-around px-2 shadow-lg border border-synth-border">
+        <a href="#hero" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="home" class="w-5 h-5"></i></a>
+        <a href="#portfolio" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="grid" class="w-5 h-5"></i></a>
+        <a href="#lab" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="microscope" class="w-5 h-5"></i></a>
+        <a href="#contact" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="key" class="w-5 h-5"></i></a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:ml-24 relative z-10">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center relative px-6 py-20 overflow-hidden bg-synth-card">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-synth-lightbl rounded-full blur-[120px] opacity-60 pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-16 relative z-10">
+                <div class="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <p class="text-synth-blue font-sora tracking-[0.3em] text-sm uppercase mb-6 hero-anim font-semibold">Biotecnologia Avançada</p>
+                    <h1 class="text-6xl md:text-8xl font-sora font-light text-synth-text mb-4 hero-anim tracking-tight">
+                        SYNTHEXIS <br/>
+                        <span class="text-blue-gradient font-medium">BIOTECH</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-synth-muted font-light mb-10 hero-anim max-w-lg">
+                        Padrão farmacêutico premium. Ciência, pureza e excelência para resultados reais.
+                    </p>
+                    
+                    <a href="#portfolio" class="hero-anim inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full text-synth-blue border border-synth-blue/30 hover:bg-synth-blue hover:text-white transition-all shadow-md group">
+                        <span class="font-sora tracking-widest uppercase text-sm font-medium">Explorar Portfólio</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="flex-1 flex justify-center lg:justify-end hero-anim w-full">
+                    <!-- Largura de 33% e efeito de degradê suave nas bordas (máscara radial) -->
+                    <div class="w-[33%] relative flex items-center justify-center" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
+                        <img src="./images/ampolafrente.jpeg" alt="Synthexis GHK-Cu 100mg" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Showcase Section -->
+        <section id="showcase" class="py-32 px-6 relative bg-white border-t border-synth-border">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16 scroll-reveal">
+                    <h2 class="text-4xl md:text-5xl font-sora font-light text-synth-text mb-6">A Essência da <span class="text-blue-gradient font-medium">Apresentação</span></h2>
+                    <p class="text-synth-muted max-w-2xl mx-auto font-light leading-relaxed">Pureza preservada em embalagem sob medida, transmitindo excelência visual e rigor biomédico.</p>
+                </div>
+
+                <div class="image-container w-full max-w-4xl mx-auto scroll-reveal border border-synth-border shadow-lg p-2 bg-synth-card">
+                    <img src="./images/360caixa.jpeg" alt="Caixa e Vial Synthexis" class="w-full h-auto object-contain rounded-lg">
+                </div>
+            </div>
+        </section>
+        
+        
+        <!-- PORTFÓLIO SECTION -->
+        <section id="portfolio" class="py-24 px-6 bg-synth-card border-t border-synth-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 scroll-reveal">
+                    <p class="text-synth-blue font-sora tracking-[0.2em] text-xs uppercase mb-3 font-semibold">Linha Completa</p>
+                    <h2 class="text-4xl md:text-5xl font-sora font-light text-synth-text mb-6">Portfólio <span class="text-blue-gradient font-medium">Synthexis</span></h2>
+                    <p class="text-synth-muted max-w-2xl mx-auto font-light leading-relaxed">Soluções biotecnológicas avançadas para demandas estéticas e de performance.</p>
+                </div>
+
+                <div class="image-container w-full mb-20 scroll-reveal p-4 bg-white">
+                    <img src="./images/portvariasfotos.jpeg" alt="Linha Completa Synthexis Biotech" class="w-full h-auto rounded-lg">
+                </div>
+
+                <!-- DESTAQUES: GHK-Cu -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-card p-10 rounded-3xl relative overflow-hidden group scroll-reveal border-l-4 border-l-synth-blue shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-br from-synth-lightbl to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="px-3 py-1 bg-synth-blue/10 text-synth-blue border border-synth-blue/20 rounded text-[10px] font-mono tracking-widest uppercase mb-6 inline-block font-semibold">Destaque Premium</span>
+                        <h3 class="font-sora text-3xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">50mg</span></h3>
+                        <p class="text-sm text-synth-muted font-light leading-relaxed mb-8">É um peptídeo naturalmente encontrado no organismo humano, conhecido por sua afinidade com o cobre e amplamente estudado em pesquisas relacionadas à regeneração tecidual, qualidade da pele e processos biológicos associados ao envelhecimento.</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div>
+                                <h4 class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
+                                <ul class="space-y-2 text-xs text-synth-text font-light">
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Apoio à revitalização da pele e potencial auxílio na regeneração cutânea</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Interesse em protocolos de rejuvenescimento estético</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Suporte à qualidade e aparência dos tecidos</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
+                                <ul class="space-y-2 text-xs text-synth-text font-light">
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> Alta afinidade biológica com processos naturais do organismo</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> Elevado padrão de pureza e controle de qualidade</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
+                            <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                            <span class="text-xs text-synth-text">Utilizado conforme protocolo específico, geralmente após reconstituição adequada. <strong>Protocolo entregue após a compra!</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-10 rounded-3xl relative overflow-hidden group scroll-reveal border-l-4 border-l-synth-blue shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-br from-synth-lightbl to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="px-3 py-1 bg-synth-blue/10 text-synth-blue border border-synth-blue/20 rounded text-[10px] font-mono tracking-widest uppercase mb-6 inline-block font-semibold">Destaque Premium</span>
+                        <h3 class="font-sora text-3xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">100mg</span></h3>
+                        <p class="text-sm text-synth-muted font-light leading-relaxed mb-8">É um peptídeo naturalmente encontrado no organismo humano, conhecido por sua afinidade com o cobre e amplamente estudado em pesquisas relacionadas à regeneração tecidual, qualidade da pele e processos biológicos associados ao envelhecimento.</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div>
+                                <h4 class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
+                                <ul class="space-y-2 text-xs text-synth-text font-light">
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Interesse crescente em protocolos capilares avançados</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Aplicação frequente em estratégias de longevidade e bem-estar</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> Complemento para cuidados estéticos de alta performance</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
+                                <ul class="space-y-2 text-xs text-synth-text font-light">
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> Tecnologia moderna aplicada à pesquisa peptídica</li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> Peptídeo amplamente reconhecido na área estética e capilar</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
+                            <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                            <span class="text-xs text-synth-text">Utilizado conforme protocolo específico, geralmente após reconstituição adequada. <strong>Protocolo entregue após a compra!</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OUTROS PRODUTOS GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">Ipamorelin</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente estudado por sua interação com mecanismos relacionados à liberação do hormônio do crescimento.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Suporte à recuperação física</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Auxílio na manutenção da composição corporal</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Potencial apoio à qualidade do sono</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Interesse crescente em protocolos de performance e longevidade</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">Glow</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Blend desenvolvido com foco em estética avançada, qualidade da pele e revitalização geral.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Aparência mais saudável da pele</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Apoio à hidratação e luminosidade</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Potencial suporte à regeneração tecidual</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Contribuição para protocolos de rejuvenescimento</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">Klow</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Formulação voltada para protocolos de bem-estar, recuperação e equilíbrio metabólico.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Suporte à recuperação do organismo</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Auxílio em protocolos de performance</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Potencial apoio ao metabolismo</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Complemento para estratégias de longevidade</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">CBL-514</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Composto investigacional estudado em protocolos relacionados à composição corporal.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Interesse crescente em estratégias de remodelação corporal</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Utilizado em estudos sobre tecido adiposo localizado</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Aplicação em protocolos modernos de estética avançada</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">GH Frag</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Fragmento peptídico derivado do hormônio do crescimento amplamente estudado em protocolos de composição corporal.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Apoio a estratégias de definição corporal</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Interesse em protocolos de redução de gordura localizada</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Complemento para programas de condicionamento físico</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">Tesamorelin</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo estudado por sua capacidade de estimular mecanismos relacionados ao hormônio do crescimento.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Suporte à composição corporal</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Interesse em protocolos de longevidade</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Potencial auxílio na recuperação física</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Aplicação em estratégias avançadas de performance</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
+            <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
+                <div class="text-center"><h3 class=" font-sora text-2xl text-synth-blue  font-medium">BPC-157</h3></div>
+            </div>
+            <div class="flex-grow flex flex-col justify-between">
+                <div>
+                    <p class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente conhecido em estudos relacionados à recuperação e regeneração tecidual.</p>
+                    <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
+                        <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Suporte aos processos naturais de recuperação</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Interesse em protocolos voltados para tecidos musculares e articulares</li><li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> Potencial auxílio em estratégias de recuperação esportiva</li>
+                    </ul>
+                </div>
+                <div class="pt-4 border-t border-synth-border mt-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                    <span class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
+                </div>
+            </div>
+        </div>
+    
+                </div>
+            </div>
+        </section>
+
+        <!-- Estrutura & Galeria -->
+<section id="gallery" class="py-24 px-6 border-t border-synth-border">
+    <div class="max-w-7xl mx-auto flex justify-center">
+        <div class="image-container scroll-reveal border border-synth-border shadow-sm p-2 bg-white rounded-xl max-w-3xl w-full">
+            <img src="./images/portfolioampola.jpeg" alt="Manuseio Synthexis" class="w-full h-auto rounded-lg">
+        </div>
+    </div>
+</section>
+
+        <!-- Laudos e Lotes -->
+        <section id="lab" class="py-24 px-6 border-t border-synth-border relative bg-synth-card">
+            <div class="max-w-4xl mx-auto scroll-reveal">
+                <div class="text-center mb-16">
+                    <i data-lucide="microscope" class="w-8 h-8 text-synth-blue mx-auto mb-4"></i>
+                    <h2 class="text-3xl font-sora font-light mb-4">Transparência <span class="text-blue-gradient">Laboratorial</span></h2>
+                    <p class="text-synth-muted font-light mb-12 max-w-2xl mx-auto text-sm">
+                        Pureza atestada. Cada lote acompanha laudo técnico rigoroso garantindo a estrutura peptídica exata e preservação da cadeia.
+                    </p>
+                </div>
+                
+                <div class="space-y-4">
+                    
+                    <!-- Lotes Esgotados -->
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 50mg <span class="text-xs text-synth-muted font-normal ml-1">(2.750 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 007.001</span> • <span>Fab: 12/25</span> • <span>Val: 06/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 100mg <span class="text-xs text-synth-muted font-normal ml-1">(3.500 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 007.002</span> • <span>Fab: 12/25</span> • <span>Val: 06/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 100mg <span class="text-xs text-synth-muted font-normal ml-1">(2.500 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 008.002</span> • <span>Fab: 01/26</span> • <span>Val: 08/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 50mg <span class="text-xs text-synth-muted font-normal ml-1">(2.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 009.003</span> • <span>Fab: 02/26</span> • <span>Val: 08/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 50mg <span class="text-xs text-synth-muted font-normal ml-1">(2.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 010.004</span> • <span>Fab: 02/26</span> • <span>Val: 08/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 100mg <span class="text-xs text-synth-muted font-normal ml-1">(3.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 011.005</span> • <span>Fab: 03/26</span> • <span>Val: 09/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-red-400">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 text-red-500 shrink-0">
+                                <i data-lucide="file-x" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 50mg <span class="text-xs text-synth-muted font-normal ml-1">(4.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-red-100 text-red-600 border border-red-200 font-semibold">Esgotado</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span>Lote: 012.004</span> • <span>Fab: 04/26</span> • <span>Val: 10/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lotes Ativos / Em Destaque -->
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-synth-blue shadow-md bg-white">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-synth-lightbl flex items-center justify-center border border-synth-blue/20 text-synth-blue shrink-0">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 100mg <span class="text-xs text-synth-muted font-normal ml-1">(5.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-synth-lightbl text-synth-blue border border-synth-blue/30 font-semibold">Exclusivo Parceiro</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span class="text-synth-blue font-medium">Lote: 014.006</span> • <span>Fab: 06/26</span> • <span>Val: 12/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between text-left gap-4 border-l-4 border-l-synth-blue shadow-md bg-white">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-lg bg-synth-lightbl flex items-center justify-center border border-synth-blue/20 text-synth-blue shrink-0">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-sora text-sm font-semibold text-synth-text">GHK-CU 100mg <span class="text-xs text-synth-muted font-normal ml-1">(10.000 un.)</span></h4>
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-mono tracking-widest uppercase bg-synth-lightbl text-synth-blue border border-synth-blue/30 font-semibold">Em Fabricação</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-3 text-[10px] text-synth-muted tracking-widest mt-1 font-mono">
+                                    <span class="text-synth-blue font-medium">Lote: 015.006</span> • <span>Fab: 06/26</span> • <span>Val: 12/2027</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="./images/laudo-tecnico.pdf" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto text-center px-5 py-2.5 bg-white border border-synth-blue/40 text-synth-blue rounded-md text-[10px] font-sora hover:bg-synth-lightbl transition-colors uppercase tracking-widest shrink-0 font-medium">
+                            Ver Laudo Oficial
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ACESSO RESTRITO / PIN SECTION -->
+        <section id="contact" class="py-32 px-6 bg-synth-card border-t border-synth-border">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 scroll-reveal">
+                    <p class="text-synth-blue font-sora tracking-[0.2em] text-xs uppercase mb-3 font-semibold">Acesso Restrito</p>
+                    <h2 class="text-4xl font-sora font-light text-synth-text mb-6">Validação de <span class="text-blue-gradient font-medium">Convite</span></h2>
+                    <p class="text-synth-muted font-light leading-relaxed max-w-2xl mx-auto">
+                        Nosso portfólio é distribuído exclusivamente através de consultores autorizados. Insira o seu PIN e o código do seu consultor para validar o cadastro e liberar o sistema.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden scroll-reveal max-w-2xl mx-auto shadow-xl">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-synth-lightbl rounded-full blur-[80px] pointer-events-none"></div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] uppercase tracking-widest text-synth-blue font-mono font-semibold">Nome Completo</label>
+                                <input type="text" id="inputNome" placeholder="Seu nome" class="w-full bg-white border border-synth-border focus:border-synth-blue text-synth-text rounded-xl px-4 py-3 outline-none transition-colors font-light text-sm shadow-sm">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] uppercase tracking-widest text-synth-blue font-mono font-semibold">Celular (WhatsApp)</label>
+                                <input type="tel" id="inputCelular" placeholder="(00) 00000-0000" class="w-full bg-white border border-synth-border focus:border-synth-blue text-synth-text rounded-xl px-4 py-3 outline-none transition-colors font-light text-sm shadow-sm">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] uppercase tracking-widest text-synth-blue font-mono font-semibold">Código do Consultor</label>
+                                <input type="text" id="inputConsultor" placeholder="Ex: CONS-001" class="w-full bg-white border border-synth-border focus:border-synth-blue text-synth-text rounded-xl px-4 py-3 outline-none transition-colors font-light text-sm uppercase shadow-sm">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] uppercase tracking-widest text-synth-blue font-mono font-semibold">PIN de Acesso</label>
+                                <input type="password" id="inputPin" placeholder="••••••" class="w-full bg-white border border-synth-border focus:border-synth-blue text-synth-text rounded-xl px-4 py-3 outline-none transition-colors font-light text-sm tracking-widest shadow-sm">
+                            </div>
+                        </div>
+
+                        <button onclick="enviarCadastro()" class="w-full mt-4 inline-flex items-center justify-center gap-3 px-6 py-4 bg-synth-blue text-white font-sora font-medium text-sm rounded-xl hover:bg-blue-800 transition-all shadow-md">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            <span>Validar e Cadastrar</span>
+                        </button>
+                        
+                        <div class="text-center mt-6">
+                            <span class="text-[10px] font-mono text-synth-muted tracking-widest flex items-center justify-center gap-2">
+                                <i data-lucide="lock" class="w-3 h-3"></i> Protegido com criptografia avançada
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-synth-border py-16 px-6 text-center text-sm text-synth-muted font-light bg-synth-card">
+        <h4 class="text-synth-blue font-sora tracking-[0.2em] text-lg uppercase mb-4 font-semibold">SYNTHEXIS BIOTECH</h4>
+        <p class="max-w-2xl mx-auto leading-relaxed mb-10 text-xs md:text-sm">Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.</p>
+    </footer>
+
+    <!-- Integração Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const supabaseUrl = 'SUA_URL_AQUI';
+      const supabaseKey = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
+      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+      async function enviarCadastro() {
+        const btn = document.querySelector('button[onclick="enviarCadastro()"]');
+        const span = btn.querySelector('span');
+        const originalText = span.innerText;
+        
+        span.innerText = "Processando...";
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+        const pinDigitado = document.getElementById('inputPin').value;
+        const nomeDigitado = document.getElementById('inputNome').value;
+        const celularDigitado = document.getElementById('inputCelular').value;
+        const consultorDigitado = document.getElementById('inputConsultor').value;
+
+        if(!pinDigitado || !nomeDigitado || !celularDigitado || !consultorDigitado) {
+            alert("Por favor, preencha todos os campos do formulário.");
+            span.innerText = originalText;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            return;
+        }
+
+        try {
+            const { data, error } = await supabase.rpc('validar_e_cadastrar', {
+              p_pin: pinDigitado,
+              p_nome: nomeDigitado,
+              p_celular: celularDigitado,
+              p_vendedor: consultorDigitado
+            });
+
+            if (error) {
+              alert("Erro na conexão com a central. Tente novamente.");
+              console.error(error);
+            } else if (data === 'SUCESSO') {
+              alert("Cadastro realizado com sucesso! Acesso validado.");
+              document.getElementById('inputPin').value = '';
+              document.getElementById('inputNome').value = '';
+              document.getElementById('inputCelular').value = '';
+              document.getElementById('inputConsultor').value = '';
+            } else {
+              alert(data); 
+            }
+        } catch (err) {
+            alert("Erro inesperado no sistema.");
+            console.error(err);
+        } finally {
+            span.innerText = originalText;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      }
+    </script>
+
+    <script>
+        lucide.createIcons();
+
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+        
+        gsap.from(".hero-anim", {
+            y: 30,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power3.out"
+        });
+
+        gsap.utils.toArray('.scroll-reveal').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>

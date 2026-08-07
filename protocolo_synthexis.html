@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNTHEXIS BIOTECH | Hub Central de Protocolos</title>
+    <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        synth: {
+                            bg: '#ffffff',
+                            card: '#f8fafc',
+                            text: '#0f172a',
+                            muted: '#64748b',
+                            blue: '#1d4ed8',
+                            lightbl: '#eff6ff',
+                            border: '#e2e8f0',
+                            accent: '#3b82f6'
+                        }
+                    },
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lenis & GSAP -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .protocol-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .protocol-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            transform: translateY(-3px);
+        }
+
+        .text-blue-gradient {
+            background: linear-gradient(to right, #1d4ed8, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+        
+        .image-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+    </style>
+
+    <!-- Open Graph / WhatsApp Preview Meta Tags -->
+    <meta property="og:title" content="SYNTHEXIS BIOTECH | Hub de Protocolos">
+    <meta property="og:description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
+    <meta property="og:image" content="./images/logo.jpeg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SYNTHEXIS BIOTECH | Hub de Protocolos">
+    <meta name="twitter:description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
+    <meta name="twitter:image" content="./images/logo.jpeg">
+
+</head>
+<body class="font-inter antialiased relative bg-synth-bg">
+
+    <div class="noise-overlay"></div>
+
+    <!-- Minimal Header -->
+    <header class="w-full h-24 border-b border-synth-border px-6 md:px-12 flex items-center justify-between fixed top-0 left-0 glass-panel z-40">
+        <div class="flex items-center gap-3">
+            <img src="./images/logo.jpeg" alt="Synthexis Logo" class="w-10 h-10 rounded-full object-cover border border-synth-border shadow-sm">
+            <span class="font-sora tracking-widest text-xs uppercase font-semibold text-synth-text">SYNTHEXIS PROTOCOLOS</span>
+        </div>
+        <a href="https://wa.me/5545999866965?text=Ol%C3%A1%21%20Gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20GHK-Cu%20e%20falar%20com%20um%20especialista." target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full border border-synth-blue text-xs text-synth-blue font-sora uppercase tracking-widest hover:bg-synth-blue hover:text-white transition-colors shadow-sm">
+            Suporte Técnico
+        </a>
+    </header>
+
+    <!-- Protocols Main Content -->
+    <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto relative z-10">
+        
+        <!-- Welcome Section -->
+        <div class="text-center max-w-3xl mx-auto mb-20 pt-10">
+            <span class="text-xs font-mono text-synth-blue uppercase tracking-[0.3em] block mb-4 font-semibold">Manual de Dosagem Otimizada</span>
+            <h1 class="text-4xl md:text-6xl font-sora font-light text-synth-text mb-6">Guia Técnico <br/><span class="text-blue-gradient font-medium">GHK-Cu</span></h1>
+            <p class="text-synth-muted font-light leading-relaxed">
+                A aplicação do peptídeo de cobre deve seguir critérios estritos de saturação molecular celular. Selecione o protocolo correspondente aos seus objetivos fisiológicos.
+            </p>
+        </div>
+
+        <!-- The 3 Directed Protocols Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Protocol 1: Estético & Anti-aging -->
+            <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded font-semibold">Módulo 01</span>
+                        <i data-lucide="sparkles" class="text-synth-accent w-6 h-6"></i>
+                    </div>
+                    <h2 class="font-sora text-2xl font-medium text-synth-text mb-4">Foco Estético &<br/><span class="text-synth-muted font-light">Anti-aging</span></h2>
+                    <p class="text-synth-muted text-sm font-light leading-relaxed mb-8">
+                        Desenvolvido exclusivamente para a reestruturação da matriz extracelular, atenuação de linhas finas e indução profunda da síntese de colágeno endógeno.
+                    </p>
+                    
+                    <div class="border-t border-synth-border pt-6 space-y-4">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Duração do Ciclo:</span>
+                            <span class="text-synth-text font-mono font-medium">30 a 45 dias</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Frequência:</span>
+                            <span class="text-synth-text font-mono font-medium">Diária (Noturna)</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Concentração Ideal:</span>
+                            <span class="text-synth-blue font-mono font-medium">Saturação Moderada</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <div class="p-4 rounded-xl bg-synth-lightbl border border-synth-blue/20 text-xs font-light text-synth-text leading-relaxed">
+                        <strong class="text-synth-blue block font-sora mb-1 font-semibold">Nota de Conservação:</strong>
+                        Manter estritamente refrigerado entre 2°C e 8°C após a adição do diluente estéril.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol 2: Recuperação Estrutural (Lesões) -->
+            <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between border-t-4 border-t-synth-blue">
+                <div>
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded font-semibold">Módulo 02</span>
+                        <i data-lucide="activity" class="text-synth-accent w-6 h-6"></i>
+                    </div>
+                    <h2 class="font-sora text-2xl font-medium text-synth-text mb-4">Recuperação Estrutural<br/><span class="text-synth-muted font-light">(Lesões)</span></h2>
+                    <p class="text-synth-muted text-sm font-light leading-relaxed mb-8">
+                        Focado na aceleração drástica da regeneração de tecidos moles, tendões, modulação inflamatória aguda e otimização pós-treino intensivo.
+                    </p>
+                    
+                    <div class="border-t border-synth-border pt-6 space-y-4">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Duração do Ciclo:</span>
+                            <span class="text-synth-text font-mono font-medium">15 a 20 dias (Intensivo)</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Frequência:</span>
+                            <span class="text-synth-text font-mono font-medium">A cada 12 horas</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Concentração Ideal:</span>
+                            <span class="text-synth-blue font-mono font-medium">Saturação Alta</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <div class="p-4 rounded-xl bg-synth-lightbl border border-synth-blue/20 text-xs font-light text-synth-text leading-relaxed">
+                        <strong class="text-synth-blue block font-sora mb-1 font-semibold">Aplicação Técnica:</strong>
+                        Recomendado o acompanhamento milimétrico de dosagem em seringas de precisão de 1ml.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol 3: Revitalização Capilar -->
+            <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded font-semibold">Módulo 03</span>
+                        <i data-lucide="shield" class="text-synth-accent w-6 h-6"></i>
+                    </div>
+                    <h2 class="font-sora text-2xl font-medium text-synth-text mb-4">Revitalização<br/><span class="text-synth-muted font-light">Capilar</span></h2>
+                    <p class="text-synth-muted text-sm font-light leading-relaxed mb-8">
+                        Atua diretamente no bloqueio da miniaturização folicular, aumentando a vascularização local do couro cabeludo e expandindo a fase anágena.
+                    </p>
+                    
+                    <div class="border-t border-synth-border pt-6 space-y-4">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Duração do Ciclo:</span>
+                            <span class="text-synth-text font-mono font-medium">60 a 90 dias</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Frequência:</span>
+                            <span class="text-synth-text font-mono font-medium">3 vezes por semana</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-synth-muted font-light">Concentração Ideal:</span>
+                            <span class="text-synth-accent font-mono font-medium">Aplicação Localizada</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <div class="p-4 rounded-xl bg-synth-lightbl border border-synth-blue/20 text-xs font-light text-synth-text leading-relaxed">
+                        <strong class="text-synth-blue block font-sora mb-1 font-semibold">Sinergia Otimizada:</strong>
+                        Altamente eficaz se integrado a protocolos de microagulhamento ou tônicos de ancoragem folicular.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Dosage Table Section -->
+        <div class="mt-24 mb-16 scroll-reveal">
+            <div class="flex items-center justify-between mb-8 border-b border-synth-border pb-4">
+                <h2 class="text-3xl font-sora font-light text-synth-text">Tabela <span class="text-blue-gradient font-medium">Oficial de Dosagem</span></h2>
+                <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded hidden md:inline-block font-semibold">Classificação: Restrito</span>
+            </div>
+            
+            <div class="image-container w-full max-w-4xl mx-auto rounded-xl border border-synth-border shadow-lg p-2 bg-white relative group">
+                <img src="./images/protocolo.jpg" alt="Tabela Oficial de Dosagem Synthexis" class="w-full h-auto object-contain rounded-lg">
+            </div>
+            
+            <p class="text-center text-xs font-mono text-synth-muted mt-6 tracking-widest uppercase">Padrão Tático de Medição - Referência de Calibragem</p>
+        </div>
+
+        <!-- Back Link Footer -->
+        <div class="text-center mt-20">
+            <p class="text-xs text-synth-muted font-light mb-4">Dúvidas adicionais sobre diluição e reconstituição molecular?</p>
+            <a href="https://wa.me/5545999866965?text=Ol%C3%A1%21%20Gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20GHK-Cu%20e%20falar%20com%20um%20especialista." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-sora text-synth-blue uppercase tracking-widest hover:text-blue-800 transition-colors font-semibold">
+                <span>Falar com Especialista</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+        </div>
+    </main>
+
+    <footer class="border-t border-synth-border py-16 px-6 text-center text-sm text-synth-muted font-light bg-synth-card">
+        <h4 class="text-synth-blue font-sora tracking-[0.2em] text-lg uppercase mb-4 font-semibold">SYNTHEXIS BIOTECH</h4>
+        <p class="max-w-2xl mx-auto leading-relaxed mb-10 text-xs md:text-sm">Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.</p>
+
+        <div class="flex justify-center mt-10">
+            <img src="./images/bonequinho.png" alt="Synthexis Operador" class="w-16 h-16 opacity-50 hover:opacity-100 transition-opacity drop-shadow-sm">
+        </div>
+    </footer>
+    
+    <script>
+        lucide.createIcons();
+        const lenis = new Lenis({ duration: 1.2 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.scroll-reveal').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
