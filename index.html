@@ -695,37 +695,56 @@
     <script>
       const supabaseUrl = 'https://mumaaekhqobcspzvvqqf.supabase.co';
       const supabaseKey = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
-      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+      
+      // O NOME FOI MUDADO PARA supabaseClient AQUI PARA EVITAR CONFLITO
+      let supabaseClient;
+      try {
+          supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+      } catch (e) {
+          console.error("Erro ao carregar Supabase:", e);
+      }
 
       async function enviarCadastro() {
         const btn = document.querySelector('button[onclick="enviarCadastro()"]');
         const span = btn.querySelector('span');
         const originalText = span.innerText;
         
-        // 1. Verificação do Turnstile
-        const turnstileToken = turnstile.getResponse();
+        let turnstileToken;
+        try {
+            turnstileToken = turnstile.getResponse();
+        } catch (e) {
+            console.error("Erro no Turnstile:", e);
+            alert("O sistema de segurança está inicializando. Aguarde 2 segundos e tente novamente.");
+            return;
+        }
+
         if (!turnstileToken) {
             alert("Por favor, aguarde a verificação de segurança ou resolva o desafio.");
             return;
         }
 
-        const pinDigitado = document.getElementById('inputPin').value;
-        const nomeDigitado = document.getElementById('inputNome').value;
-        const celularDigitado = document.getElementById('inputCelular').value;
-        const consultorDigitado = document.getElementById('inputConsultor').value;
+        if (!supabaseClient) {
+            alert("Erro fatal: Não foi possível conectar ao banco de dados.");
+            return;
+        }
 
-        // 2. Verifica se tem campo vazio ANTES de travar o botão
+        // Adicionado .trim() para limpar espaços em branco invisíveis que possam dar erro
+        const pinDigitado = document.getElementById('inputPin').value.trim();
+        const nomeDigitado = document.getElementById('inputNome').value.trim();
+        const celularDigitado = document.getElementById('inputCelular').value.trim();
+        const consultorDigitado = document.getElementById('inputConsultor').value.trim();
+
         if(!pinDigitado || !nomeDigitado || !celularDigitado || !consultorDigitado) {
             alert("Por favor, preencha todos os campos do formulário.");
             return;
         }
 
-        // 3. Efeito visual de carregamento
         span.innerText = "Processando...";
         btn.classList.add('opacity-50', 'cursor-not-allowed');
 
         try {
-            const { data, error } = await supabase.rpc('validar_e_cadastrar', {
+            // Chamando o rpc através do supabaseClient
+            const { data, error } = await supabaseClient.rpc('validar_e_cadastrar', {
               p_pin: pinDigitado,
               p_nome: nomeDigitado,
               p_celular: celularDigitado,
@@ -735,22 +754,22 @@
             if (error) {
               alert("Erro na conexão com a central. Tente novamente.");
               console.error(error);
-              turnstile.reset(); // Reseta o desafio
+              try { turnstile.reset(); } catch(e){}
             } else if (data === 'SUCESSO') {
               alert("Cadastro realizado com sucesso! Acesso validado.");
               document.getElementById('inputPin').value = '';
               document.getElementById('inputNome').value = '';
               document.getElementById('inputCelular').value = '';
               document.getElementById('inputConsultor').value = '';
-              turnstile.reset(); // Reseta para um próximo cadastro
+              try { turnstile.reset(); } catch(e){}
             } else {
               alert(data); 
-              turnstile.reset(); // Reseta se o PIN for inválido ou já usado
+              try { turnstile.reset(); } catch(e){}
             }
         } catch (err) {
             alert("Erro inesperado no sistema.");
             console.error(err);
-            turnstile.reset();
+            try { turnstile.reset(); } catch(e){}
         } finally {
             span.innerText = originalText;
             btn.classList.remove('opacity-50', 'cursor-not-allowed');
