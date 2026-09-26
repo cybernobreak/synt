@@ -4,48 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYNTHEXIS BIOTECH | Hub Central de Protocolos</title>
+    <meta name="description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
     <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
     
-    <!-- Fonts -->
+    <!-- Fonts (carregadas sem bloquear a renderização; só os pesos 300/400/500/600 são usados) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap"></noscript>
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CSS do Tailwind já compilado (o mesmo style.css usado no index.html) -->
+    <link rel="stylesheet" href="./style.css">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        synth: {
-                            bg: '#ffffff',
-                            card: '#f8fafc',
-                            text: '#0f172a',
-                            muted: '#64748b',
-                            blue: '#1d4ed8',
-                            lightbl: '#eff6ff',
-                            border: '#e2e8f0',
-                            accent: '#3b82f6'
-                        }
-                    },
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Lenis & GSAP -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <style>
         body {
@@ -113,6 +88,25 @@
         @keyframes shine {
             to { background-position: 200% center; }
         }
+
+        /* Reveal ao rolar a página — leve, elegante, sem bibliotecas externas */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
     </style>
 
     <!-- Open Graph / WhatsApp Preview Meta Tags -->
@@ -133,7 +127,7 @@
     <!-- Minimal Header -->
     <header class="w-full h-24 border-b border-synth-border px-6 md:px-12 flex items-center justify-between fixed top-0 left-0 glass-panel z-40">
         <div class="flex items-center gap-3">
-            <img src="./images/logo.jpeg" alt="Synthexis Logo" class="w-10 h-10 rounded-full object-cover border border-synth-border shadow-sm">
+            <img src="./images/logo.jpeg" alt="Synthexis Logo" decoding="async" class="w-10 h-10 rounded-full object-cover border border-synth-border shadow-sm">
             <span class="font-sora tracking-widest text-xs uppercase font-semibold text-synth-text">SYNTHEXIS PROTOCOLOS</span>
         </div>
         <a href="https://wa.me/5545999866965?text=Ol%C3%A1%21%20Gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20GHK-Cu%20e%20falar%20com%20um%20especialista." target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full border border-synth-blue text-xs text-synth-blue font-sora uppercase tracking-widest hover:bg-synth-blue hover:text-white transition-colors shadow-sm">
@@ -274,7 +268,7 @@
             </div>
             
             <div class="image-container w-full max-w-4xl mx-auto rounded-xl border border-synth-border shadow-lg p-2 bg-white relative group">
-                <img src="./images/protocolo.jpg" alt="Tabela Oficial de Dosagem Synthexis" class="w-full h-auto object-contain rounded-lg">
+                <img src="./images/protocolo.jpg" alt="Tabela Oficial de Dosagem Synthexis" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
             </div>
             
             <p class="text-center text-xs font-mono text-synth-muted mt-6 tracking-widest uppercase">Padrão Tático de Medição - Referência de Calibragem</p>
@@ -295,29 +289,26 @@
         <p class="max-w-2xl mx-auto leading-relaxed mb-10 text-xs md:text-sm">Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.</p>
 
         <div class="flex justify-center mt-10">
-            <img src="./images/bonequinho.png" alt="Synthexis Operador" class="w-16 h-16 opacity-50 hover:opacity-100 transition-opacity drop-shadow-sm">
+            <img src="./images/bonequinho.png" alt="Synthexis Operador" loading="lazy" decoding="async" class="w-16 h-16 opacity-50 hover:opacity-100 transition-opacity drop-shadow-sm">
         </div>
     </footer>
     
     <script>
-        lucide.createIcons();
-        const lenis = new Lenis({ duration: 1.2 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-        
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.scroll-reveal').forEach(element => {
-            gsap.from(element, {
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                },
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Reveal ao rolar (sem GSAP/ScrollTrigger/Lenis) — o scroll suave
+            // já vem do "scroll-smooth" no <html>.
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
         });
     </script>
 </body>
