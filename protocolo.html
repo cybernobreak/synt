@@ -293,23 +293,7 @@
         </div>
     </footer>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-
-            // Reveal ao rolar (sem GSAP/ScrollTrigger/Lenis) — o scroll suave
-            // já vem do "scroll-smooth" no <html>.
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-
-            document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
-        });
-    </script>
+<script src="./js/i18n-translations.js" defer></script>
+<script src="./js/main.js" defer></script>
 </body>
 </html>
