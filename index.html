@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="./style.css">
 
     <!-- Scripts externos com 'defer' para não bloquear a renderização inicial -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest" defer onload="lucide.createIcons();"></script>
     
     <!-- i18next CDN para Internacionalização -->
     <script src="https://cdn.jsdelivr.net/npm/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
@@ -111,22 +111,36 @@
             transform: scale(1.02);
         }
 
-        /* Reveal ao rolar a página — leve, elegante, sem bibliotecas externas */
-        .scroll-reveal, .hero-anim {
+        /* Reveal ao rolar a página (seções abaixo da dobra) — controlado por JS/IntersectionObserver */
+        .scroll-reveal {
             opacity: 0;
             transform: translateY(28px);
             transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
-        .scroll-reveal.is-visible, .hero-anim.is-visible {
+        .scroll-reveal.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Entrada do hero (100% CSS, sem depender de nenhum script carregar).
+           Assim o conteúdo principal aparece rápido mesmo em conexão ruim —
+           o atraso de cada elemento vem do atributo inline "style" no HTML. */
+        .hero-anim {
+            opacity: 0;
+            transform: translateY(28px);
+            animation: heroReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes heroReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .scroll-reveal, .hero-anim {
                 opacity: 1;
                 transform: none;
                 transition: none;
+                animation: none;
             }
         }
 
@@ -197,22 +211,22 @@
             
             <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-16 relative z-10">
                 <div class="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-                    <p data-i18n="hero.subtitle" class="text-synth-blue font-sora tracking-[0.3em] text-sm uppercase mb-6 hero-anim font-semibold">Biotecnologia Avançada</p>
-                    <h1 class="text-6xl md:text-8xl font-sora font-light text-synth-text mb-4 hero-anim tracking-tight">
+                    <p data-i18n="hero.subtitle" class="text-synth-blue font-sora tracking-[0.3em] text-sm uppercase mb-6 hero-anim font-semibold" style="animation-delay:0s">Biotecnologia Avançada</p>
+                    <h1 class="text-6xl md:text-8xl font-sora font-light text-synth-text mb-4 hero-anim tracking-tight" style="animation-delay:0.12s">
                         SYNTHEXIS <br/>
                         <span class="text-blue-gradient font-medium">BIOTECH</span>
                     </h1>
-                    <p data-i18n="hero.description" class="text-xl md:text-2xl text-synth-muted font-light mb-10 hero-anim max-w-lg">
+                    <p data-i18n="hero.description" class="text-xl md:text-2xl text-synth-muted font-light mb-10 hero-anim max-w-lg" style="animation-delay:0.24s">
                         Padrão farmacêutico premium. Ciência, pureza e excelência para resultados reais.
                     </p>
                     
-                    <a href="#portfolio" class="hero-anim inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full text-synth-blue border border-synth-blue/30 hover:bg-synth-blue hover:text-white transition-all shadow-md group">
+                    <a href="#portfolio" class="hero-anim inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full text-synth-blue border border-synth-blue/30 hover:bg-synth-blue hover:text-white transition-all shadow-md group" style="animation-delay:0.36s">
                         <span data-i18n="hero.button" class="font-sora tracking-widest uppercase text-sm font-medium">Explorar Portfólio</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
 
-                <div class="flex-1 flex justify-center lg:justify-end hero-anim w-full">
+                <div class="flex-1 flex justify-center lg:justify-end hero-anim w-full" style="animation-delay:0.48s">
                     <div class="w-[55%] relative flex items-center justify-center" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
                         <img src="./images/ampolafrente.webp" srcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" sizes="(max-width: 1024px) 55vw, 500px" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" fetchpriority="high" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
@@ -638,12 +652,8 @@
           // Animações de entrada nativas (sem GSAP/ScrollTrigger/Lenis):
           // o scroll suave já vem de "scroll-smooth" no <html>, e o reveal
           // usa IntersectionObserver + as transições CSS definidas acima.
-
-          // Elementos do hero: aparecem em sequência assim que a página carrega.
-          document.querySelectorAll('.hero-anim').forEach((el, i) => {
-              el.style.transitionDelay = `${i * 0.12}s`;
-              requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('is-visible')));
-          });
+          // (O hero agora usa animação 100% CSS — ver .hero-anim no <style> —
+          // então ele aparece rápido mesmo antes deste script rodar.)
 
           // Demais seções: aparecem conforme entram na tela.
           const revealObserver = new IntersectionObserver((entries) => {
