@@ -20,6 +20,7 @@
     <!-- Preconnects Estratégicos para acelerar conexões -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <!-- Fonte carregada de forma assíncrona (não bloqueia a renderização inicial); apenas os pesos 300/400/500/600 são usados no site -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap">
@@ -30,10 +31,10 @@
     <link rel="stylesheet" href="./style.css">
 
     <!-- Scripts externos com 'defer' para não bloquear a renderização inicial -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest" defer onload="lucide.createIcons();"></script>
+    <script src="https://unpkg.com/lucide@latest" defer onload="lucide.createIcons();"></script>
     
     <!-- i18next CDN para Internacionalização -->
-    <script src="https://cdn.jsdelivr.net/npm/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
+    <script src="https://unpkg.com/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
     <!-- Turnstile (captcha) e Supabase NÃO são carregados aqui de cara: são scripts pesados
          usados só no formulário lá embaixo (#contact). Eles são injetados dinamicamente
          quando o usuário chega perto dessa seção (ver IntersectionObserver no fim do body).
