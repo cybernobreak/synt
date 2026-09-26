@@ -15,12 +15,11 @@
     <meta property="og:type" content="website">
 
     <!-- Preload da imagem principal (LCP) para acelerar a primeira renderização -->
-    <link rel="preload" as="image" href="./images/ampolafrente.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./images/ampolafrente.webp" imagesrcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" imagesizes="(max-width: 1024px) 55vw, 500px" fetchpriority="high">
 
     <!-- Preconnects Estratégicos para acelerar conexões -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <!-- Fonte carregada de forma assíncrona (não bloqueia a renderização inicial); apenas os pesos 300/400/500/600 são usados no site -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap">
@@ -31,11 +30,14 @@
     <link rel="stylesheet" href="./style.css">
 
     <!-- Scripts externos com 'defer' para não bloquear a renderização inicial -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
-    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest" defer></script>
     
     <!-- i18next CDN para Internacionalização -->
-    <script src="https://unpkg.com/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
+    <!-- Turnstile (captcha) e Supabase NÃO são carregados aqui de cara: são scripts pesados
+         usados só no formulário lá embaixo (#contact). Eles são injetados dinamicamente
+         quando o usuário chega perto dessa seção (ver IntersectionObserver no fim do body).
+         Isso tira ~esses scripts do caminho crítico de carregamento e reduz TBT/TTI. -->
 
     <style>
         body {
@@ -212,7 +214,7 @@
 
                 <div class="flex-1 flex justify-center lg:justify-end hero-anim w-full">
                     <div class="w-[55%] relative flex items-center justify-center" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
-                        <img src="./images/ampolafrente.webp" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" fetchpriority="high" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
+                        <img src="./images/ampolafrente.webp" srcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" sizes="(max-width: 1024px) 55vw, 500px" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" fetchpriority="high" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
                 </div>
             </div>
@@ -226,7 +228,7 @@
                 </div>
 
                 <div class="image-container w-full max-w-4xl mx-auto scroll-reveal border border-synth-border shadow-lg p-2 bg-synth-card">
-                    <img src="./images/360caixa.webp" alt="Caixa e Vial Synthexis" width="1316" height="1195" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
+                    <img src="./images/360caixa.webp" srcset="./images/360caixa-640w.webp 640w, ./images/360caixa.webp 1316w" sizes="(max-width: 1024px) 90vw, 800px" alt="Caixa e Vial Synthexis" width="1316" height="1195" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
                 </div>
             </div>
         </section>
@@ -240,7 +242,7 @@
                 </div>
 
                 <div class="image-container w-full mb-20 scroll-reveal p-4 bg-white">
-                    <img src="./images/portvariasfotos.webp" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
+                    <img src="./images/portvariasfotos.webp" srcset="./images/portvariasfotos-640w.webp 640w, ./images/portvariasfotos.webp 1536w" sizes="(max-width: 1024px) 92vw, 1100px" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -559,90 +561,14 @@
         </div>
     </footer>
 
-    <!-- Supabase com carregamento assíncrono atrasado (defer) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    
+    <!-- Dicionário de traduções movido para arquivo externo (cacheável e fora do parsing crítico) -->
+    <script src="./i18n-translations.js" defer></script>
+
     <script>
       // ----------------------------------------------------------------------
       // SISTEMA DE IDIOMAS (i18n) - DETECÇÃO AUTOMÁTICA E DICIONÁRIO
+      // (o dicionário "translations" agora vem de ./i18n-translations.js)
       // ----------------------------------------------------------------------
-      const translations = {
-        pt: {
-            translation: {
-                nav: { home: "Início", products: "Produtos", labs: "Laudos", access: "Acesso" },
-                hero: { subtitle: "Biotecnologia Avançada", description: "Padrão farmacêutico premium. Ciência, pureza e excelência para resultados reais.", button: "Explorar Portfólio" },
-                showcase: { title1: "A Essência do", title2: "Produto Synthexis", desc: "Pureza preservada em embalagem sob medida, transmitindo excelência visual e rigor biomédico." },
-                portfolio: { 
-                    subtitle: "Linha Completa", title1: "Portfólio", desc: "Soluções biotecnológicas avançadas para demandas estéticas e de performance.",
-                    labels: { premium: "Destaque Premium", benefits: "Principais Benefícios", diffs: "Diferenciais", app: "Forma de Aplicação", appDesc: "Utilizado conforme protocolo específico, geralmente após reconstituição adequada.", appProto: "Protocolo entregue após a compra!" },
-                    ghk: { desc: "É um peptídeo naturalmente encontrado no organismo humano, conhecido por sua afinidade com o cobre e amplamente estudado em pesquisas relacionadas à regeneração tecidual, qualidade da pele e processos biológicos associados ao envelhecimento." },
-                    ghk50: { ben1: "Apoio à revitalização da pele e potencial auxílio na regeneração cutânea", ben2: "Interesse em protocolos de rejuvenescimento estético", ben3: "Suporte à qualidade e aparência dos tecidos", dif1: "Alta afinidade biológica com processos naturais do organismo", dif2: "Elevado padrão de pureza e controle de qualidade" },
-                    ghk100: { ben1: "Interesse crescente em protocolos capilares avançados", ben2: "Aplicação frequente em estratégias de longevidade e bem-estar", ben3: "Complemento para cuidados estéticos de alta performance", dif1: "Tecnologia moderna aplicada à pesquisa peptídica", dif2: "Peptídeo amplamente reconhecido na área estética e capilar" },
-                    ipamorelin: { desc: "Peptídeo amplamente estudado por sua interação com mecanismos relacionados à liberação do hormônio do crescimento.", ben1: "Suporte à recuperação física", ben2: "Auxílio na manutenção da composição corporal", ben3: "Potencial apoio à qualidade do sono", ben4: "Interesse crescente em protocolos de performance e longevidade" },
-                    glow: { desc: "Blend desenvolvido com foco em estética avançada, qualidade da pele e revitalização geral.", ben1: "Aparência mais saudável da pele", ben2: "Apoio à hidratação e luminosidade", ben3: "Potencial suporte à regeneração tecidual", ben4: "Contribuição para protocolos de rejuvenescimento" },
-                    klow: { desc: "Formulação voltada para protocolos de bem-estar, recuperação e equilíbrio metabólico.", ben1: "Suporte à recuperação do organismo", ben2: "Auxílio em protocolos de performance", ben3: "Potencial apoio ao metabolismo", ben4: "Complemento para estratégias de longevidade" },
-                    cbl514: { desc: "Composto investigacional estudado em protocolos relacionados à composição corporal.", ben1: "Interesse crescente em estratégias de remodelação corporal", ben2: "Utilizado em estudos sobre tecido adiposo localizado", ben3: "Aplicação em protocolos modernos de estética avançada" },
-                    ghfrag: { desc: "Fragmento peptídico derivado do hormônio do crescimento amplamente estudado em protocolos de composição corporal.", ben1: "Apoio a estratégias de definição corporal", ben2: "Interesse em protocolos de redução de gordura localizada", ben3: "Complemento para programas de condicionamento físico" },
-                    tesamorelin: { desc: "Peptídeo estudado por sua capacidade de estimular mecanismos relacionados ao hormônio do crescimento.", ben1: "Suporte à composição corporal", ben2: "Interesse em protocolos de longevidade", ben3: "Potencial auxílio na recuperação física", ben4: "Aplicação em estratégias avançadas de performance" },
-                    bpc157: { desc: "Peptídeo amplamente conhecido em estudos relacionados à recuperação e regeneração tecidual.", ben1: "Suporte aos processos naturais de recuperação", ben2: "Interesse em protocolos voltados para tecidos musculares e articulares", ben3: "Potencial auxílio em estratégias de recuperação esportiva" }
-                },
-                lab: { title1: "Transparência", title2: "Laboratorial", description: "Pureza atestada. Cada lote acompanha laudo técnico rigoroso garantindo a estrutura peptídica exata e preservação da cadeia.", status: { soldOut: "Esgotado", exclusive: "Exclusivo Parceiro", production: "Em Fabricação" }, labels: { batch: "Lote:", mfg: "Fab:", exp: "Val:" }, button: "Ver Laudo Oficial" },
-                access: { subtitle: "Acesso Restrito", title1: "Validação de", title2: "Cadastro", desc: "Nosso portfólio é distribuído exclusivamente através de consultores autorizados. Insira o seu PIN e o código do seu consultor para validar sua compra e concorrer a diversos prêmios." },
-                form: { name: "Nome Completo", namePh: "Seu nome", phone: "Celular (WhatsApp)", code: "Código do Consultor", pin: "PIN de Acesso", button: "Validar e Cadastrar", secure: "Protegido com criptografia avançada" },
-                footer: { desc: "Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.", contact: "Contato comercial." }
-            }
-        },
-        en: {
-            translation: {
-                nav: { home: "Home", products: "Products", labs: "Lab Reports", access: "Access" },
-                hero: { subtitle: "Advanced Biotechnology", description: "Premium pharmaceutical standard. Science, purity, and excellence for real results.", button: "Explore Portfolio" },
-                showcase: { title1: "The Essence of the", title2: "Synthexis Product", desc: "Purity preserved in custom packaging, conveying visual excellence and biomedical rigor." },
-                portfolio: { 
-                    subtitle: "Full Line", title1: "Portfolio", desc: "Advanced biotechnological solutions for aesthetic and performance demands.",
-                    labels: { premium: "Premium Highlight", benefits: "Main Benefits", diffs: "Differentials", app: "Method of Application", appDesc: "Used according to specific protocol, usually after proper reconstitution.", appProto: "Protocol delivered after purchase!" },
-                    ghk: { desc: "It is a peptide naturally found in the human body, known for its affinity with copper and widely studied in research related to tissue regeneration, skin quality, and biological processes associated with aging." },
-                    ghk50: { ben1: "Support for skin revitalization and potential aid in skin regeneration", ben2: "Interest in aesthetic rejuvenation protocols", ben3: "Support for tissue quality and appearance", dif1: "High biological affinity with the body's natural processes", dif2: "High standard of purity and quality control" },
-                    ghk100: { ben1: "Growing interest in advanced hair protocols", ben2: "Frequent application in longevity and wellness strategies", ben3: "Complement for high-performance aesthetic care", dif1: "Modern technology applied to peptide research", dif2: "Peptide widely recognized in the aesthetic and hair care fields" },
-                    ipamorelin: { desc: "Peptide widely studied for its interaction with mechanisms related to growth hormone release.", ben1: "Support for physical recovery", ben2: "Aid in maintaining body composition", ben3: "Potential support for sleep quality", ben4: "Growing interest in performance and longevity protocols" },
-                    glow: { desc: "Blend developed with a focus on advanced aesthetics, skin quality, and overall revitalization.", ben1: "Healthier skin appearance", ben2: "Support for hydration and luminosity", ben3: "Potential support for tissue regeneration", ben4: "Contribution to rejuvenation protocols" },
-                    klow: { desc: "Formulation focused on wellness, recovery, and metabolic balance protocols.", ben1: "Support for body recovery", ben2: "Aid in performance protocols", ben3: "Potential metabolic support", ben4: "Complement for longevity strategies" },
-                    cbl514: { desc: "Investigational compound studied in protocols related to body composition.", ben1: "Growing interest in body remodeling strategies", ben2: "Used in studies on localized adipose tissue", ben3: "Application in modern advanced aesthetic protocols" },
-                    ghfrag: { desc: "Peptide fragment derived from growth hormone widely studied in body composition protocols.", ben1: "Support for body definition strategies", ben2: "Interest in localized fat reduction protocols", ben3: "Complement for fitness programs" },
-                    tesamorelin: { desc: "Peptide studied for its ability to stimulate mechanisms related to growth hormone.", ben1: "Support for body composition", ben2: "Interest in longevity protocols", ben3: "Potential aid in physical recovery", ben4: "Application in advanced performance strategies" },
-                    bpc157: { desc: "Peptide widely known in studies related to tissue recovery and regeneration.", ben1: "Support for natural recovery processes", ben2: "Interest in protocols aimed at muscle and joint tissues", ben3: "Potential aid in sports recovery strategies" }
-                },
-                lab: { title1: "Laboratory", title2: "Transparency", description: "Purity attested. Every batch comes with a rigorous technical report ensuring the exact peptide structure and chain preservation.", status: { soldOut: "Out of Stock", exclusive: "Partner Exclusive", production: "In Production" }, labels: { batch: "Batch:", mfg: "Mfg:", exp: "Exp:" }, button: "View Official Report" },
-                access: { subtitle: "Restricted Access", title1: "Registration", title2: "Validation", desc: "Our portfolio is distributed exclusively through authorized consultants. Enter your PIN and your consultant's code to validate your purchase and compete for various prizes." },
-                form: { name: "Full Name", namePh: "Your name", phone: "Phone (WhatsApp)", code: "Consultant Code", pin: "Access PIN", button: "Validate and Register", secure: "Protected with advanced encryption" },
-                footer: { desc: "Products developed under strict standards of quality, purity, and control, intended for specific protocols conducted by qualified professionals. Technology, science, and excellence at every stage of the process.", contact: "Commercial contact." }
-            }
-        },
-        es: {
-            translation: {
-                nav: { home: "Inicio", products: "Productos", labs: "Reportes", access: "Acceso" },
-                hero: { subtitle: "Biotecnología Avanzada", description: "Estándar farmacéutico premium. Ciencia, pureza y excelencia para resultados reales.", button: "Explorar Portafolio" },
-                showcase: { title1: "La Esencia del", title2: "Producto Synthexis", desc: "Pureza preservada en envases a medida, transmitiendo excelencia visual y rigor biomédico." },
-                portfolio: { 
-                    subtitle: "Línea Completa", title1: "Portafolio", desc: "Soluciones biotecnológicas avanzadas para demandas estéticas y de rendimiento.",
-                    labels: { premium: "Destacado Premium", benefits: "Beneficios Principales", diffs: "Diferenciales", app: "Forma de Aplicación", appDesc: "Utilizado según protocolo específico, generalmente después de una reconstitución adecuada.", appProto: "¡Protocolo entregado después de la compra!" },
-                    ghk: { desc: "Es un péptido que se encuentra naturalmente en el cuerpo humano, conocido por su afinidad con el cobre y ampliamente estudiado en investigaciones relacionadas con la regeneración de tejidos, la calidad de la piel y los procesos biológicos asociados al envejecimiento." },
-                    ghk50: { ben1: "Apoyo a la revitalización de la piel y ayuda potencial en la regeneración cutánea", ben2: "Interés en protocolos de rejuvenecimiento estético", ben3: "Soporte a la calidad y apariencia de los tejidos", dif1: "Alta afinidad biológica con los procesos naturales del organismo", dif2: "Alto estándar de pureza y control de calidad" },
-                    ghk100: { ben1: "Creciente interés en protocolos capilares avanzados", ben2: "Aplicación frecuente en estrategias de longevidad y bienestar", ben3: "Complemento para cuidados estéticos de alto rendimiento", dif1: "Tecnología moderna aplicada a la investigación peptídica", dif2: "Péptido ampliamente reconocido en el área estética y capilar" },
-                    ipamorelin: { desc: "Péptido ampliamente estudiado por su interacción con mecanismos relacionados con la liberación de la hormona del crecimiento.", ben1: "Apoyo a la recuperación física", ben2: "Ayuda en el mantenimiento de la composición corporal", ben3: "Apoyo potencial a la calidad del sueño", ben4: "Creciente interés en protocolos de rendimiento y longevidad" },
-                    glow: { desc: "Mezcla desarrollada con un enfoque en estética avanzada, calidad de la piel y revitalización general.", ben1: "Apariencia de la piel más saludable", ben2: "Apoyo a la hidratación y luminosidad", ben3: "Soporte potencial a la regeneración de tejidos", ben4: "Contribución a los protocolos de rejuvenecimiento" },
-                    klow: { desc: "Formulación centrada en protocolos de bienestar, recuperación y equilibrio metabólico.", ben1: "Apoyo a la recuperación del organismo", ben2: "Ayuda en protocolos de rendimiento", ben3: "Apoyo metabólico potencial", ben4: "Complemento para estrategias de longevidad" },
-                    cbl514: { desc: "Compuesto en fase de investigación estudiado en protocolos relacionados con la composición corporal.", ben1: "Creciente interés en estrategias de remodelación corporal", ben2: "Utilizado en estudios sobre tejido adiposo localizado", ben3: "Aplicación en protocolos modernos de estética avanzada" },
-                    ghfrag: { desc: "Fragmento peptídico derivado de la hormona del crecimiento ampliamente estudiado en protocolos de composición corporal.", ben1: "Apoyo a las estrategias de definición corporal", ben2: "Interés en protocolos de reducción de grasa localizada", ben3: "Complemento para programas de acondicionamiento físico" },
-                    tesamorelin: { desc: "Péptido estudiado por su capacidad para estimular mecanismos relacionados con la hormona del crecimiento.", ben1: "Apoyo a la composición corporal", ben2: "Interés en protocolos de longevidad", ben3: "Ayuda potencial en la recuperación física", ben4: "Aplicación en estrategias de rendimiento avanzadas" },
-                    bpc157: { desc: "Péptido ampliamente conocido en estudios relacionados con la recuperación y regeneración de tejidos.", ben1: "Apoyo a los procesos naturales de recuperación", ben2: "Interés en protocolos dirigidos a tejidos musculares y articulares", ben3: "Ayuda potencial en estrategias de recuperación deportiva" }
-                },
-                lab: { title1: "Transparencia", title2: "Laboratorial", description: "Pureza atestada. Cada lote incluye un riguroso informe técnico garantizando la estructura peptídica exacta y la preservación de la cadena.", status: { soldOut: "Agotado", exclusive: "Exclusivo Socios", production: "En Producción" }, labels: { batch: "Lote:", mfg: "Fab:", exp: "Cad:" }, button: "Ver Informe Oficial" },
-                access: { subtitle: "Acceso Restringido", title1: "Validación de", title2: "Registro", desc: "Nuestro portafolio se distribuye exclusivamente a través de consultores autorizados. Ingrese su PIN y el código de su consultor para validar su compra y competir por diversos premios." },
-                form: { name: "Nombre Completo", namePh: "Tu nombre", phone: "Teléfono (WhatsApp)", code: "Código de Consultor", pin: "PIN de Acceso", button: "Validar y Registrar", secure: "Protegido con cifrado avanzado" },
-                footer: { desc: "Productos desarrollados bajo estrictos estándares de calidad, pureza y control, destinados a protocolos específicos conducidos por profesionales calificados. Tecnología, ciencia y excelencia en cada etapa del proceso.", contact: "Contacto comercial." }
-            }
-        }
-      };
 
       // Detecta idioma do navegador ao carregar a página
       document.addEventListener("DOMContentLoaded", () => {
@@ -670,11 +596,44 @@
               window.__i18nextInitFn = startI18n;
           }
 
-          const supabaseUrl = 'https://mumaaekhqobcspzvvqqf.supabase.co';
-          const supabaseKey = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
-          try { supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } catch (e) { }
-          
           lucide.createIcons();
+
+          // Turnstile (captcha) e Supabase só são carregados quando a seção
+          // de cadastro (#contact) está prestes a entrar na tela — evitam
+          // pesar o carregamento inicial da página com scripts que só são
+          // usados no formulário lá embaixo.
+          let scriptsFormularioCarregados = false;
+          function carregarScriptsDoFormulario() {
+              if (scriptsFormularioCarregados) return;
+              scriptsFormularioCarregados = true;
+
+              const turnstileScript = document.createElement('script');
+              turnstileScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+              turnstileScript.async = true;
+              document.head.appendChild(turnstileScript);
+
+              const supabaseScript = document.createElement('script');
+              supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+              supabaseScript.onload = function() {
+                  const supabaseUrl = 'https://mumaaekhqobcspzvvqqf.supabase.co';
+                  const supabaseKey = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
+                  try { supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } catch (e) { }
+              };
+              document.head.appendChild(supabaseScript);
+          }
+
+          const contactSection = document.getElementById('contact');
+          if (contactSection) {
+              const formLoaderObserver = new IntersectionObserver((entries) => {
+                  entries.forEach(entry => {
+                      if (entry.isIntersecting) {
+                          carregarScriptsDoFormulario();
+                          formLoaderObserver.disconnect();
+                      }
+                  });
+              }, { rootMargin: '600px 0px' }); // começa a carregar um pouco antes de a seção aparecer
+              formLoaderObserver.observe(contactSection);
+          }
 
           // Animações de entrada nativas (sem GSAP/ScrollTrigger/Lenis):
           // o scroll suave já vem de "scroll-smooth" no <html>, e o reveal
