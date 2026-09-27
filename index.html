@@ -2,20 +2,27 @@
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://mumaaekhqobcspzvvqqf.supabase.co https://challenges.cloudflare.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline'; connect-src 'self' https://mumaaekhqobcspzvvqqf.supabase.co https://challenges.cloudflare.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYNTHEXIS BIOTECH | Alta Performance</title>
     <meta name="description" content="Ciência, pureza e excelência para resultados reais em performance e estética avançada.">
 
     <!-- Imagens convertidas para WebP -->
-    <link rel="icon" type="image/webp" href="./images/logo.webp">
+    <link rel="icon" type="image/webp" href="./images/favicon.webp">
     <meta property="og:title" content="SYNTHEXIS BIOTECH | Alta Performance">
     <meta property="og:description" content="Ciência, pureza e excelência para resultados reais em performance e estética avançada.">
-    <meta property="og:image" content="./images/logo.webp">
+    <!-- IMPORTANTE: troque SEU-DOMINIO.COM pelo domínio real do site. WhatsApp/Facebook exigem URL absoluta para og:image; um caminho relativo (./images/...) não gera preview de link. -->
+    <meta property="og:image" content="https://SEU-DOMINIO.COM/images/logo.webp">
+    <meta property="og:url" content="https://SEU-DOMINIO.COM/">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SYNTHEXIS BIOTECH | Alta Performance">
+    <meta name="twitter:description" content="Ciência, pureza e excelência para resultados reais em performance e estética avançada.">
+    <meta name="twitter:image" content="https://SEU-DOMINIO.COM/images/logo.webp">
 
     <!-- Preload da imagem principal (LCP) para acelerar a primeira renderização -->
-    <link rel="preload" as="image" href="./images/ampolafrente.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./images/lancamento-10-10.webp" imagesrcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" imagesizes="(min-width: 768px) 768px, 100vw" fetchpriority="high">
+    <link rel="preload" as="image" href="./images/ampolafrente.webp" imagesrcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" imagesizes="(min-width: 1024px) 55vw, 100vw">
 
     <!-- Preconnects Estratégicos para acelerar conexões -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,106 +39,19 @@
 
     <!-- Scripts externos com 'defer' para não bloquear a renderização inicial -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
-    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://unpkg.com/lucide@0.525.0" defer></script>
     
     <!-- i18next CDN para Internacionalização -->
     <script src="https://unpkg.com/i18next@23.10.1/i18next.min.js" defer onload="window.__i18nextReady=true; if(window.__i18nextInitFn) window.__i18nextInitFn();"></script>
 
     <style>
+        /* Estilos exclusivos desta página continuam aqui; o restante (glass-card, noise-overlay,
+           scroll-reveal, etc.) foi movido para style.css para ser cacheado uma única vez entre as páginas. */
         body {
             background-color: #ffffff;
             color: #0f172a;
             overflow-x: hidden;
         }
-        
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 50;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-        }
-        
-        .glass-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        .glass-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-            transform: translateY(-3px);
-        }
-
-        .text-blue-gradient {
-            background: linear-gradient(to right, #1d4ed8, #3b82f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        .image-container {
-            position: relative;
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            mix-blend-mode: multiply;
-            transition: transform 0.8s ease;
-        }
-        
-        .image-container:hover img {
-            transform: scale(1.02);
-        }
-
-        /* Reveal ao rolar a página — leve, elegante, sem bibliotecas externas */
-        .scroll-reveal, .hero-anim {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .scroll-reveal.is-visible, .hero-anim.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .scroll-reveal, .hero-anim {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="font-inter antialiased selection:bg-synth-blue selection:text-white relative bg-synth-bg">
@@ -189,7 +109,14 @@
     </nav>
 
     <main class="md:ml-24 relative z-10">
-        
+
+        <!-- Banner de Lançamento 10/10 — primeira imagem a carregar na página -->
+        <section id="lancamento" class="w-full pt-4 md:pt-6 px-4">
+            <a href="#portfolio" class="block max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-synth-border">
+                <img src="./images/lancamento-10-10.webp" srcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" sizes="(min-width: 768px) 768px, 100vw" alt="Lançamento 10/10 — dois novos produtos Synthexis Biotech" width="1024" height="1536" fetchpriority="high" decoding="async" class="w-full h-auto">
+            </a>
+        </section>
+
         <section id="hero" class="min-h-screen flex items-center justify-center relative px-6 py-20 overflow-hidden bg-synth-card">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-synth-lightbl rounded-full blur-[120px] opacity-60 pointer-events-none"></div>
             
@@ -212,7 +139,7 @@
 
                 <div class="flex-1 flex justify-center lg:justify-end hero-anim w-full">
                     <div class="w-[55%] relative flex items-center justify-center" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
-                        <img src="./images/ampolafrente.webp" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" fetchpriority="high" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
+                        <img src="./images/ampolafrente.webp" srcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" sizes="(min-width: 1024px) 55vw, 100vw" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
                 </div>
             </div>
@@ -226,7 +153,7 @@
                 </div>
 
                 <div class="image-container w-full max-w-4xl mx-auto scroll-reveal border border-synth-border shadow-lg p-2 bg-synth-card">
-                    <img src="./images/360caixa.webp" alt="Caixa e Vial Synthexis" width="1316" height="1195" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
+                    <img src="./images/360caixa.webp" srcset="./images/360caixa-640w.webp 640w, ./images/360caixa.webp 1316w" sizes="(min-width: 768px) 896px, 100vw" alt="Caixa e Vial Synthexis" width="1316" height="1195" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
                 </div>
             </div>
         </section>
@@ -240,7 +167,7 @@
                 </div>
 
                 <div class="image-container w-full mb-20 scroll-reveal p-4 bg-white">
-                    <img src="./images/portvariasfotos.webp" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
+                    <img src="./images/portvariasfotos.webp" srcset="./images/portvariasfotos-640w.webp 640w, ./images/portvariasfotos.webp 1536w" sizes="(min-width: 1024px) 1280px, 100vw" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -255,23 +182,23 @@
                             <div>
                                 <h4 data-i18n="portfolio.labels.benefits" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
                                 <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben3"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben1">Apoio à revitalização da pele e potencial auxílio na regeneração cutânea</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben2">Interesse em protocolos de rejuvenescimento estético</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben3">Suporte à qualidade e aparência dos tecidos</span></li>
                                 </ul>
                             </div>
                             <div>
                                 <h4 data-i18n="portfolio.labels.diffs" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
                                 <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif2"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif1">Alta afinidade biológica com processos naturais do organismo</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif2">Elevado padrão de pureza e controle de qualidade</span></li>
                                 </ul>
                             </div>
                         </div>
                         
                         <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
                             <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
-                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc"></span> <strong data-i18n="portfolio.labels.appProto"></strong></span>
+                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc">Utilizado conforme protocolo específico, geralmente após reconstituição adequada.</span> <strong data-i18n="portfolio.labels.appProto">Protocolo entregue após a compra!</strong></span>
                         </div>
                     </div>
 
@@ -286,23 +213,23 @@
                             <div>
                                 <h4 data-i18n="portfolio.labels.benefits" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
                                 <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben3"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben1">Interesse crescente em protocolos capilares avançados</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben2">Aplicação frequente em estratégias de longevidade e bem-estar</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben3">Complemento para cuidados estéticos de alta performance</span></li>
                                 </ul>
                             </div>
                             <div>
                                 <h4 data-i18n="portfolio.labels.diffs" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
                                 <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif2"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif1">Tecnologia moderna aplicada à pesquisa peptídica</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif2">Peptídeo amplamente reconhecido na área estética e capilar</span></li>
                                 </ul>
                             </div>
                         </div>
                         
                         <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
                             <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
-                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc"></span> <strong data-i18n="portfolio.labels.appProto"></strong></span>
+                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc">Utilizado conforme protocolo específico, geralmente após reconstituição adequada.</span> <strong data-i18n="portfolio.labels.appProto">Protocolo entregue após a compra!</strong></span>
                         </div>
                     </div>
                 </div>
@@ -315,17 +242,17 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.ipamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.ipamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente estudado por sua interação com mecanismos relacionados à liberação do hormônio do crescimento.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben3"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben4"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben1">Suporte à recuperação física</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben2">Auxílio na manutenção da composição corporal</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben3">Potencial apoio à qualidade do sono</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben4">Interesse crescente em protocolos de performance e longevidade</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -336,17 +263,17 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.glow.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.glow.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Blend desenvolvido com foco em estética avançada, qualidade da pele e revitalização geral.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben3"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben4"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben1">Aparência mais saudável da pele</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben2">Apoio à hidratação e luminosidade</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben3">Potencial suporte à regeneração tecidual</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben4">Contribuição para protocolos de rejuvenescimento</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -357,17 +284,17 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.klow.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.klow.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Formulação voltada para protocolos de bem-estar, recuperação e equilíbrio metabólico.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben3"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben4"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben1">Suporte à recuperação do organismo</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben2">Auxílio em protocolos de performance</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben3">Potencial apoio ao metabolismo</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.klow.ben4">Complemento para estratégias de longevidade</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -378,16 +305,16 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.cbl514.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.cbl514.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Composto investigacional estudado em protocolos relacionados à composição corporal.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben3"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben1">Interesse crescente em estratégias de remodelação corporal</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben2">Utilizado em estudos sobre tecido adiposo localizado</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.cbl514.ben3">Aplicação em protocolos modernos de estética avançada</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -398,16 +325,16 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.ghfrag.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.ghfrag.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Fragmento peptídico derivado do hormônio do crescimento amplamente estudado em protocolos de composição corporal.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben3"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben1">Apoio a estratégias de definição corporal</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben2">Interesse em protocolos de reducción de gordura localizada</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghfrag.ben3">Complemento para programas de condicionamento físico</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -418,17 +345,17 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.tesamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.tesamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo estudado por sua capacidade de estimular mecanismos relacionados ao hormônio do crescimento.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben3"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben4"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben1">Suporte à composição corporal</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben2">Interesse em protocolos de longevidade</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben3">Potencial auxílio na recuperação física</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben4">Aplicação em estratégias avançadas de performance</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -439,16 +366,16 @@
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.bpc157.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6"></p>
+                                <p data-i18n="portfolio.bpc157.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente conhecido em estudos relacionados à recuperação e regeneração tecidual.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben1"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben2"></span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben3"></span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben1">Suporte aos processos naturais de recuperação</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben2">Interesse em protocolos voltados para tecidos musculares e articulares</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben3">Potencial auxílio em estratégias de recuperação esportiva</span></li>
                                 </ul>
                             </div>
                             <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold"></span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium"></span>
+                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
+                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
                             </div>
                         </div>
                     </div>
@@ -500,7 +427,7 @@
                 <div class="text-center mb-16 scroll-reveal">
                     <p data-i18n="access.subtitle" class="text-synth-blue font-sora tracking-[0.2em] text-xs uppercase mb-3 font-semibold">Acesso Restrito</p>
                     <h2 class="text-4xl font-sora font-light text-synth-text mb-6"><span data-i18n="access.title1">Validação de</span> <span data-i18n="access.title2" class="text-blue-gradient font-medium">Cadastro</span></h2>
-                    <p data-i18n="access.desc" class="text-synth-muted font-light leading-relaxed max-w-2xl mx-auto"></p>
+                    <p data-i18n="access.desc" class="text-synth-muted font-light leading-relaxed max-w-2xl mx-auto">Nosso portfólio é distribuído exclusivamente através de consultores autorizados. Insira o seu PIN e o código do seu consultor para validar sua compra e concorrer a diversos prêmios.</p>
                 </div>
 
                 <div class="glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden scroll-reveal max-w-2xl mx-auto shadow-xl">
@@ -550,11 +477,11 @@
 
     <footer class="border-t border-synth-border py-16 px-6 text-center text-sm text-synth-muted font-light bg-synth-card flex flex-col items-center">
         <h4 class="text-synth-blue font-sora tracking-[0.2em] text-lg uppercase mb-4 font-semibold">SYNTHEXIS BIOTECH</h4>
-        <p data-i18n="footer.desc" class="max-w-2xl mx-auto leading-relaxed mb-10 text-xs md:text-sm"></p>
+        <p data-i18n="footer.desc" class="max-w-2xl mx-auto leading-relaxed mb-10 text-xs md:text-sm">Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.</p>
         <div class="mt-8 mb-4 w-full flex justify-center">
             <a href="https://wa.me/5545999674663?text=Ol%C3%A1%21%20Gostaria%20de%20falar%20com%20o%20comercial." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 px-6 py-4 bg-white border border-synth-border text-synth-blue rounded-xl font-sora hover:bg-synth-lightbl hover:border-synth-blue/30 transition-all shadow-md font-semibold text-sm">
                 <i data-lucide="message-circle" class="w-5 h-5"></i>
-                <span data-i18n="footer.contact">Contato comercial</span>
+                <span data-i18n="footer.contact">Contato comercial.</span>
             </a>
         </div>
     </footer>

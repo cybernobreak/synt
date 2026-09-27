@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline';">
     <title>SYNTHEXIS BIOTECH | Hub Central de Protocolos</title>
     <meta name="description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
-    <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
+    <link rel="icon" type="image/webp" href="./images/favicon.webp">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,103 +20,29 @@
     <link rel="stylesheet" href="./style.css">
 
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://unpkg.com/lucide@0.525.0" defer></script>
 
     <style>
+        /* Estilos exclusivos desta página; o restante (protocol-card, noise-overlay, scroll-reveal etc.)
+           agora vive em style.css e é compartilhado/cacheado entre index.html e esta página. */
         body {
             background-color: #ffffff;
             color: #0f172a;
             overflow-x: hidden;
-        }
-        
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 50;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .protocol-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        .protocol-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-            transform: translateY(-3px);
-        }
-
-        .text-blue-gradient {
-            background: linear-gradient(to right, #1d4ed8, #3b82f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
-        }
-        
-        .image-container {
-            position: relative;
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            mix-blend-mode: multiply;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .scroll-reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .scroll-reveal {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
         }
     </style>
 
     <!-- Open Graph / WhatsApp Preview Meta Tags -->
     <meta property="og:title" content="SYNTHEXIS BIOTECH | Hub de Protocolos">
     <meta property="og:description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
-    <meta property="og:image" content="./images/logo.jpeg">
+    <!-- IMPORTANTE: troque SEU-DOMINIO.COM pelo domínio real do site em og:image/og:url/twitter:image. -->
+    <meta property="og:image" content="https://SEU-DOMINIO.COM/images/logo.webp">
+    <meta property="og:url" content="https://SEU-DOMINIO.COM/protocolo.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SYNTHEXIS BIOTECH | Hub de Protocolos">
     <meta name="twitter:description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
-    <meta name="twitter:image" content="./images/logo.jpeg">
+    <meta name="twitter:image" content="https://SEU-DOMINIO.COM/images/logo.webp">
 
 </head>
 <body class="font-inter antialiased relative bg-synth-bg">
@@ -125,10 +52,10 @@
     <!-- Minimal Header -->
     <header class="w-full h-24 border-b border-synth-border px-6 md:px-12 flex items-center justify-between fixed top-0 left-0 glass-panel z-40">
         <div class="flex items-center gap-3">
-            <img src="./images/logo.jpeg" alt="Synthexis Logo" decoding="async" class="w-10 h-10 rounded-full object-cover border border-synth-border shadow-sm">
+            <img src="./images/logo.webp" alt="Synthexis Logo" width="555" height="370" decoding="async" class="w-10 h-10 rounded-full object-cover border border-synth-border shadow-sm">
             <span class="font-sora tracking-widest text-xs uppercase font-semibold text-synth-text">SYNTHEXIS PROTOCOLOS</span>
         </div>
-        <a href="https://wa.me/5545920024133?text=Ol%C3%A1%21%20Gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20GHK-Cu%20e%20falar%20com%20um%20especialista." target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full border border-synth-blue text-xs text-synth-blue font-sora uppercase tracking-widest hover:bg-synth-blue hover:text-white transition-colors shadow-sm">
+        <a href="https://wa.me/5545999866965?text=Ol%C3%A1%21%20Gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20GHK-Cu%20e%20falar%20com%20um%20especialista." target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full border border-synth-blue text-xs text-synth-blue font-sora uppercase tracking-widest hover:bg-synth-blue hover:text-white transition-colors shadow-sm">
             Suporte Técnico
         </a>
     </header>
@@ -266,7 +193,7 @@
             </div>
             
             <div class="image-container w-full max-w-4xl mx-auto rounded-xl border border-synth-border shadow-lg p-2 bg-white relative group">
-                <img src="./images/protocolo.jpg" alt="Tabela Oficial de Dosagem Synthexis" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
+                <img src="./images/protocolo-tabela.webp" alt="Tabela Oficial de Dosagem Synthexis" width="1024" height="1536" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
             </div>
             
             <p class="text-center text-xs font-mono text-synth-muted mt-6 tracking-widest uppercase">Padrão Tático de Medição - Referência de Calibragem</p>
@@ -275,7 +202,7 @@
         <!-- Nova Seção: Mídias Adicionais do Protocolo -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 mb-16 scroll-reveal">
             
-            <!-- Balão 1: Imagem (protocolo.jpeg) -->
+            <!-- Balão 1: Protocolo (reaproveita a tabela oficial de dosagem) -->
             <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-6">
@@ -286,8 +213,7 @@
                 </div>
                 
                 <div class="image-container w-full mt-6 rounded-xl border border-synth-border shadow-sm p-2 bg-white relative">
-                    <!-- Ajuste o caminho "./images/" de acordo com a pasta onde está sua imagem -->
-                    <img src="./images/protocolo.jpeg" alt="Protocolo Visual" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
+                    <img src="./images/protocolo-tabela.webp" alt="Tabela Oficial de Dosagem Synthexis" width="1024" height="1536" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
                 </div>
             </div>
 
@@ -311,7 +237,7 @@
                     </div>
 
                     <!-- Elemento de Vídeo (Oculto inicialmente, sem o 'src' para não travar a página) -->
-                    <video id="protocol-video" class="w-full h-auto rounded-lg hidden" controls playsinline preload="none">
+                    <video id="protocol-video" class="w-full h-auto rounded-lg hidden" controls playsinline preload="none" poster="./images/protocolo-video-poster.webp" width="576" height="1024">
                         <!-- A tag <source> será injetada dinamicamente via JavaScript -->
                     </video>
                 </div>
@@ -338,7 +264,6 @@
         </div>
     </footer>
     
-<script src="./js/i18n-translations.js" defer></script>
 <script src="./js/main.js" defer></script>
 </body>
 </html>
