@@ -68,3 +68,31 @@ async function enviarCadastro() {
     } catch (err) { alert("Erro inesperado."); try { turnstile.reset(); } catch(e){}
     } finally { span.innerText = originalText; btn.classList.remove('opacity-50', 'cursor-not-allowed'); }
 }
+
+// =========================================================
+// NOVO CÓDIGO: Lógica Condicional de Carregamento do Vídeo
+// =========================================================
+window.addEventListener('load', function() {
+    const videoElement = document.getElementById('protocol-video');
+    const loadingMsg = document.getElementById('loading-video-msg');
+    
+    if (videoElement && loadingMsg) {
+        // Cria a origem do vídeo de forma dinâmica
+        const source = document.createElement('source');
+        // IMPORTANTE: Ajuste o caminho "./vidprotocolo.mp4" conforme necessário
+        source.src = './vidprotocolo.mp4'; 
+        source.type = 'video/mp4';
+        
+        // Adiciona o vídeo ao elemento <video>
+        videoElement.appendChild(source);
+
+        // Quando o vídeo tiver carregado dados suficientes para começar a tocar
+        videoElement.addEventListener('canplay', function() {
+            loadingMsg.classList.add('hidden'); 
+            videoElement.classList.remove('hidden'); 
+        });
+
+        // Inicia o download do vídeo em segundo plano
+        videoElement.load();
+    }
+});
