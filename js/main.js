@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userLang.toLowerCase().startsWith('en')) defaultLang = 'en';
     if (userLang.toLowerCase().startsWith('es')) defaultLang = 'es';
     function startI18n() {
+        // Proteção: em páginas que não carregam i18next/translations (ex.: protocolo.html),
+        // esta função nunca deve rodar de fato.
+        if (typeof i18next === 'undefined' || typeof translations === 'undefined') return;
         i18next.init({ lng: defaultLang, fallbackLng: 'pt', resources: translations }).then(function() {
             updateContent();
             updateFlag(defaultLang);
@@ -70,29 +73,42 @@ async function enviarCadastro() {
 }
 
 // =========================================================
-// NOVO CÓDIGO: Lógica Condicional de Carregamento do Vídeo
+// Carregamento condicional do vídeo, adiado até o usuário
+// rolar até perto do player (evita baixar o .mp4 para quem
+// nunca chega a essa seção da página).
 // =========================================================
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const videoElement = document.getElementById('protocol-video');
     const loadingMsg = document.getElementById('loading-video-msg');
-    
-    if (videoElement && loadingMsg) {
-        // Cria a origem do vídeo de forma dinâmica
+    if (!videoElement || !loadingMsg) return;
+
+    function loadVideo() {
         const source = document.createElement('source');
         // IMPORTANTE: Ajuste o caminho "./vidprotocolo.mp4" conforme necessário
-        source.src = './vidprotocolo.mp4'; 
+        source.src = './vidprotocolo.mp4';
         source.type = 'video/mp4';
-        
-        // Adiciona o vídeo ao elemento <video>
         videoElement.appendChild(source);
 
-        // Quando o vídeo tiver carregado dados suficientes para começar a tocar
         videoElement.addEventListener('canplay', function() {
-            loadingMsg.classList.add('hidden'); 
-            videoElement.classList.remove('hidden'); 
+            loadingMsg.classList.add('hidden');
+            videoElement.classList.remove('hidden');
         });
 
-        // Inicia o download do vídeo em segundo plano
         videoElement.load();
+    }
+
+    if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadVideo();
+                    obs.disconnect();
+                }
+            });
+        }, { rootMargin: '300px 0px' });
+        videoObserver.observe(videoElement.parentElement || videoElement);
+    } else {
+        // Fallback para navegadores sem suporte a IntersectionObserver
+        loadVideo();
     }
 });

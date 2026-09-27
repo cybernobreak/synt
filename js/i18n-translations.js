@@ -21,7 +21,7 @@ const translations = {
           lab: { title1: "Transparência", title2: "Laboratorial", description: "Pureza atestada. Cada lote acompanha laudo técnico rigoroso garantindo a estrutura peptídica exata e preservação da cadeia.", status: { soldOut: "Esgotado", exclusive: "Exclusivo Parceiro", production: "Em Fabricação" }, labels: { batch: "Lote:", mfg: "Fab:", exp: "Val:" }, button: "Ver Laudo Oficial" },
           access: { subtitle: "Acesso Restrito", title1: "Validação de", title2: "Cadastro", desc: "Nosso portfólio é distribuído exclusivamente através de consultores autorizados. Insira o seu PIN e o código do seu consultor para validar sua compra e concorrer a diversos prêmios." },
           form: { name: "Nome Completo", namePh: "Seu nome", phone: "Celular (WhatsApp)", code: "Código do Consultor", pin: "PIN de Acesso", button: "Validar e Cadastrar", secure: "Protegido com criptografia avançada" },
-          footer: { desc: "Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.", contact: "Contato comercial" }
+          footer: { desc: "Produtos desenvolvidos sob rigorosos padrões de qualidade, pureza e controle, destinados a protocolos específicos conduzidos por profissionais habilitados. Tecnologia, ciência e excelência em cada etapa do processo.", contact: "Contato comercial." }
       }
   },
   en: {
@@ -46,7 +46,7 @@ const translations = {
           lab: { title1: "Laboratory", title2: "Transparency", description: "Purity attested. Every batch comes with a rigorous technical report ensuring the exact peptide structure and chain preservation.", status: { soldOut: "Out of Stock", exclusive: "Partner Exclusive", production: "In Production" }, labels: { batch: "Batch:", mfg: "Mfg:", exp: "Exp:" }, button: "View Official Report" },
           access: { subtitle: "Restricted Access", title1: "Registration", title2: "Validation", desc: "Our portfolio is distributed exclusively through authorized consultants. Enter your PIN and your consultant's code to validate your purchase and compete for various prizes." },
           form: { name: "Full Name", namePh: "Your name", phone: "Phone (WhatsApp)", code: "Consultant Code", pin: "Access PIN", button: "Validate and Register", secure: "Protected with advanced encryption" },
-          footer: { desc: "Products developed under strict standards of quality, purity, and control, intended for specific protocols conducted by qualified professionals. Technology, science, and excellence at every stage of the process.", contact: "Commercial contact" }
+          footer: { desc: "Products developed under strict standards of quality, purity, and control, intended for specific protocols conducted by qualified professionals. Technology, science, and excellence at every stage of the process.", contact: "Commercial contact." }
       }
   },
   es: {
@@ -71,7 +71,7 @@ const translations = {
           lab: { title1: "Transparencia", title2: "Laboratorial", description: "Pureza atestada. Cada lote incluye un riguroso informe técnico garantizando la estructura peptídica exacta y la preservación de la cadena.", status: { soldOut: "Agotado", exclusive: "Exclusivo Socios", production: "En Producción" }, labels: { batch: "Lote:", mfg: "Fab:", exp: "Cad:" }, button: "Ver Informe Oficial" },
           access: { subtitle: "Acceso Restringido", title1: "Validación de", title2: "Registro", desc: "Nuestro portafolio se distribuye exclusivamente a través de consultores autorizados. Ingrese su PIN y el código de su consultor para validar su compra y competir por diversos premios." },
           form: { name: "Nombre Completo", namePh: "Tu nombre", phone: "Teléfono (WhatsApp)", code: "Código de Consultor", pin: "PIN de Acceso", button: "Validar y Registrar", secure: "Protegido con cifrado avanzado" },
-          footer: { desc: "Productos desarrollados bajo estrictos estándares de calidad, pureza y control, destinados a protocolos específicos conducidos por profesionales calificados. Tecnología, ciencia y excelencia en cada etapa del proceso.", contact: "Contacto comercial" }
+          footer: { desc: "Productos desarrollados bajo estrictos estándares de calidad, pureza y control, destinados a protocolos específicos conducidos por profesionales calificados. Tecnología, ciencia y excelencia en cada etapa del proceso.", contact: "Contacto comercial." }
       }
   }
 };
