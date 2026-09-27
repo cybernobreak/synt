@@ -7,7 +7,7 @@
     <meta name="description" content="Manual de dosagem otimizada. Protocolos clínicos e guias técnicos estritos de saturação molecular para aplicação do GHK-Cu.">
     <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
     
-    <!-- Fonts (carregadas sem bloquear a renderização; só os pesos 300/400/500/600 são usados) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
@@ -16,7 +16,6 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap"></noscript>
     
     <!-- Tailwind CSS -->
-    <!-- CSS do Tailwind já compilado (o mesmo style.css usado no index.html) -->
     <link rel="stylesheet" href="./style.css">
 
     <!-- Lucide Icons -->
@@ -89,7 +88,6 @@
             to { background-position: 200% center; }
         }
 
-        /* Reveal ao rolar a página — leve, elegante, sem bibliotecas externas */
         .scroll-reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -272,6 +270,53 @@
             </div>
             
             <p class="text-center text-xs font-mono text-synth-muted mt-6 tracking-widest uppercase">Padrão Tático de Medição - Referência de Calibragem</p>
+        </div>
+
+        <!-- Nova Seção: Mídias Adicionais do Protocolo -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 mb-16 scroll-reveal">
+            
+            <!-- Balão 1: Imagem (protocolo.webp) -->
+            <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded font-semibold">Visual</span>
+                        <i data-lucide="image" class="text-synth-accent w-6 h-6"></i>
+                    </div>
+                    <h2 class="font-sora text-2xl font-medium text-synth-text mb-4">Protocolo <span class="text-synth-muted font-light">em Imagem</span></h2>
+                </div>
+                
+                <div class="image-container w-full mt-6 rounded-xl border border-synth-border shadow-sm p-2 bg-white relative">
+                    <!-- Ajuste o caminho "./images/" de acordo com a pasta onde está sua imagem -->
+                    <img src="./images/protocolo.webp" alt="Protocolo Visual" loading="lazy" decoding="async" class="w-full h-auto object-contain rounded-lg">
+                </div>
+            </div>
+
+            <!-- Balão 2: Vídeo com Carregamento Condicional (vidprotocolo.mp4) -->
+            <div class="protocol-card rounded-3xl p-8 md:p-10 flex flex-col justify-between border-t-4 border-t-synth-blue">
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="px-3 py-1 bg-synth-blue/10 text-[10px] font-mono uppercase text-synth-blue tracking-wider rounded font-semibold">Multimídia</span>
+                        <i data-lucide="video" class="text-synth-accent w-6 h-6"></i>
+                    </div>
+                    <h2 class="font-sora text-2xl font-medium text-synth-text mb-4">Vídeo do <span class="text-synth-muted font-light">Protocolo</span></h2>
+                </div>
+                
+                <!-- Container do Vídeo -->
+                <div class="w-full mt-6 bg-synth-lightbl border border-synth-border rounded-xl p-2 min-h-[250px] flex items-center justify-center relative overflow-hidden">
+                    
+                    <!-- Mensagem de Carregamento (Aparece enquanto o vídeo não carrega) -->
+                    <div id="loading-video-msg" class="text-center px-4">
+                        <i data-lucide="loader" class="w-8 h-8 text-synth-blue animate-spin mx-auto mb-3"></i>
+                        <p class="text-sm font-mono text-synth-blue">Seu vídeo com o protocolo está sendo carregado...</p>
+                    </div>
+
+                    <!-- Elemento de Vídeo (Oculto inicialmente, sem o 'src' para não travar a página) -->
+                    <video id="protocol-video" class="w-full h-auto rounded-lg hidden" controls playsinline preload="none">
+                        <!-- A tag <source> será injetada dinamicamente via JavaScript -->
+                    </video>
+                </div>
+            </div>
+
         </div>
 
         <!-- Back Link Footer -->
