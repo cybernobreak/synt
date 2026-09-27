@@ -23,7 +23,7 @@
     <!-- Preload da imagem principal (LCP) para acelerar a primeira renderização.
          O hero agora é só texto; a primeira foto real da página é o banner de
          lançamento logo abaixo dele, então é ela quem ganha a prioridade de carregamento. -->
-    <link rel="preload" as="image" href="./images/lancamento-10-10.webp" imagesrcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" imagesizes="(min-width: 768px) 448px, 100vw" fetchpriority="high">
+    <link rel="preload" as="image" href="./images/lancamento-10-10.webp" imagesrcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" imagesizes="320px" fetchpriority="high">
 
     <!-- Preconnects Estratégicos para acelerar conexões -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,7 @@
     <main class="md:ml-24 relative z-10">
 
 
-        <section id="hero" class="min-h-screen flex items-center justify-center relative px-6 py-32 overflow-hidden bg-synth-card">
+        <section id="hero" class="flex items-center justify-center relative px-6 py-24 overflow-hidden bg-synth-card">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-synth-lightbl rounded-full blur-[120px] opacity-60 pointer-events-none"></div>
 
             <div class="max-w-4xl mx-auto flex flex-col items-center text-center w-full relative z-10">
@@ -133,9 +133,9 @@
         </section>
 
         <section id="launch" class="py-16 px-6 bg-white border-t border-synth-border">
-            <div class="max-w-md mx-auto scroll-reveal">
+            <div class="mx-auto scroll-reveal" style="max-width: 320px;">
                 <div class="image-container w-full p-2 bg-synth-card border border-synth-border shadow-md">
-                    <img src="./images/lancamento-10-10.webp" srcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" sizes="(min-width: 768px) 448px, 100vw" alt="Synthexis - Lançamento 10/10" width="1024" height="1536" decoding="async" class="w-full h-auto rounded-lg">
+                    <img src="./images/lancamento-10-10.webp" srcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" sizes="320px" alt="Synthexis - Lançamento 10/10" width="1024" height="1536" decoding="async" class="w-full h-auto rounded-lg">
                 </div>
             </div>
         </section>
@@ -145,12 +145,6 @@
                 <div class="text-center mb-16 scroll-reveal">
                     <h2 class="text-4xl md:text-5xl font-sora font-light text-synth-text mb-6"><span data-i18n="showcase.title1">A Essência do</span> <span data-i18n="showcase.title2" class="text-blue-gradient font-medium">Produto Synthexis</span></h2>
                     <p data-i18n="showcase.desc" class="text-synth-muted max-w-2xl mx-auto font-light leading-relaxed">Pureza preservada em embalagem sob medida, transmitindo excelência visual e rigor biomédico.</p>
-                </div>
-
-                <div class="max-w-md mx-auto mb-16 scroll-reveal">
-                    <div class="w-full relative flex items-center justify-center" style="-webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%); mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);">
-                        <img src="./images/ampolafrente.webp" srcset="./images/ampolafrente-640w.webp 640w, ./images/ampolafrente.webp 1024w" sizes="(min-width: 768px) 448px, 100vw" alt="Synthexis GHK-Cu 100mg" width="1024" height="1536" loading="lazy" decoding="async" class="w-full h-auto drop-shadow-xl mix-blend-multiply hover:scale-105 transition-transform duration-700 ease-out">
-                    </div>
                 </div>
 
                 <div class="image-container w-full max-w-4xl mx-auto scroll-reveal border border-synth-border shadow-lg p-2 bg-synth-card">
