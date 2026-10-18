@@ -20,26 +20,20 @@
     <meta name="twitter:description" content="Ciência, pureza e excelência para resultados reais em performance e estética avançada.">
     <meta name="twitter:image" content="https://synthexis.com.br/images/logo.webp">
 
-    <!-- Preload da imagem principal (LCP) para acelerar a primeira renderização.
-         O hero agora é só texto; a primeira foto real da página é o banner de
-         lançamento logo abaixo dele, então é ela quem ganha a prioridade de carregamento. -->
-    <link rel="preload" as="image" href="./images/lancamento-10-10.webp" imagesrcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" imagesizes="320px" fetchpriority="high">
 
     <!-- Preconnects Estratégicos para acelerar conexões -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <!-- Fonte carregada de forma assíncrona (não bloqueia a renderização inicial); apenas os pesos 300/400/500/600 são usados no site -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap"></noscript>
     
     <!-- CSS do Tailwind já compilado (gerado com "npx tailwindcss ...") -->
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=20261018">
 
-    <!-- Scripts externos com 'defer' para não bloquear a renderização inicial -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
+    <!-- Scripts externos com 'defer'. Supabase e Turnstile (formulário) são carregados sob demanda pelo js/main.js -->
     <script src="https://unpkg.com/lucide@0.525.0" defer></script>
     
     <!-- i18next CDN para Internacionalização -->
@@ -86,9 +80,13 @@
                     <i data-lucide="home" class="w-5 h-5"></i>
                     <span data-i18n="nav.home" class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Início</span>
                 </a>
-                <a href="#portfolio" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+                <a href="#produtos" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
                     <i data-lucide="grid" class="w-5 h-5"></i>
                     <span data-i18n="nav.products" class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Produtos</span>
+                <a href="#portfolio" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
+    <i data-lucide="briefcase" class="w-5 h-5"></i>
+    <span data-i18n="portfolio" class="text-[9px] font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Portfólio</span>
+</a>
                 </a>
                 <a href="#lab" class="flex flex-col items-center text-synth-muted hover:text-synth-blue transition-colors gap-2 py-2 group">
                     <i data-lucide="microscope" class="w-5 h-5"></i>
@@ -104,7 +102,8 @@
 
     <nav class="md:hidden fixed bottom-6 left-4 right-4 h-16 glass-panel rounded-2xl z-40 flex items-center justify-around px-2 shadow-lg border border-synth-border">
         <a href="#hero" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="home" class="w-5 h-5"></i></a>
-        <a href="#portfolio" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="grid" class="w-5 h-5"></i></a>
+        <a href="#produtos" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="grid" class="w-5 h-5"></i></a>
+        <a href="#portfolio" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="briefcase" class="w-5 h-5"></i></a>
         <a href="#lab" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="microscope" class="w-5 h-5"></i></a>
         <a href="#contact" class="p-2 text-synth-muted hover:text-synth-blue"><i data-lucide="key" class="w-5 h-5"></i></a>
     </nav>
@@ -125,17 +124,129 @@
                     Padrão farmacêutico premium. Ciência, pureza e excelência para resultados reais.
                 </p>
 
-                <a href="#portfolio" class="hero-anim inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full text-synth-blue border border-synth-blue/30 hover:bg-synth-blue hover:text-white transition-all shadow-md group">
+                <a href="#produtos" class="hero-anim inline-flex items-center justify-center gap-3 px-8 py-4 bg-white rounded-full text-synth-blue border border-synth-blue/30 hover:bg-synth-blue hover:text-white transition-all shadow-md group">
                     <span data-i18n="hero.button" class="font-sora tracking-widest uppercase text-sm font-medium">Explorar Portfólio</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
         </section>
 
-        <section id="launch" class="py-16 px-6 bg-white border-t border-synth-border">
-            <div class="mx-auto scroll-reveal" style="max-width: 320px;">
-                <div class="image-container w-full p-2 bg-synth-card border border-synth-border shadow-md">
-                    <img src="./images/lancamento-10-10.webp" srcset="./images/lancamento-10-10-640w.webp 640w, ./images/lancamento-10-10.webp 1024w" sizes="320px" alt="Synthexis - Lançamento 10/10" width="1024" height="1536" decoding="async" class="w-full h-auto rounded-lg">
+        <section id="produtos" class="py-24 px-6 bg-white border-t border-synth-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 scroll-reveal">
+                    <p data-i18n="products.subtitle" class="text-synth-blue font-sora tracking-[0.2em] text-xs uppercase mb-3 font-semibold">Linha SYNTHEXIS</p>
+                    <h2 class="text-4xl md:text-5xl font-sora font-light text-synth-text mb-6"><span data-i18n="products.title1">Nossos</span> <span class="text-blue-gradient font-medium"><span data-i18n="products.title2">Produtos</span></span></h2>
+                    <p data-i18n="products.desc" class="text-synth-muted max-w-2xl mx-auto font-light leading-relaxed">Conheça a linha SYNTHEXIS: apresentações premium, identidade visual consistente e atenção aos detalhes.</p>
+                </div>
+
+                <!-- Destaque: GHK-Cu 150 mg reconstituído -->
+                <div class="prod-featured-grid mb-8">
+                <article class="glass-card prod-card rounded-3xl overflow-hidden relative scroll-reveal flex flex-col prod-card--featured border-l-4 border-l-synth-blue shadow-lg prod-card--hero">
+                    <div class="prod-img prod-img--hero">
+                        <img src="./images/ghk150.webp" srcset="./images/ghk150-640w.webp 640w, ./images/ghk150.webp 1200w" sizes="(min-width: 1024px) 600px, 100vw" alt="Synthexis GHK-Cu 150 mg reconstituído" width="1200" height="900" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-empty')">
+                    </div>
+                    <div class="p-10 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between gap-3 mb-4"><span data-i18n="products.ghk150.type" class="text-[10px] font-mono tracking-widest uppercase text-synth-muted font-semibold">Reconstituído</span><span class="px-3 py-1 bg-synth-blue text-white rounded text-[10px] font-mono tracking-widest uppercase inline-flex items-center gap-1 font-semibold"><i data-lucide="star" class="w-3 h-3"></i> <span data-i18n="products.labels.featured">Destaque</span></span></div>
+                        <h3 class="font-sora text-3xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">150 mg</span></h3>
+                        <p data-i18n="products.ghk150.tag" class="block text-sm font-sora text-synth-blue mb-4 font-medium">Praticidade e apresentação diferenciada em uma versão premium.</p>
+                        
+                        <p data-i18n="products.ghk150.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-6">O GHK-Cu 150 mg reconstituído é apresentado em uma versão diferenciada do portfólio SYNTHEXIS, com foco na praticidade de apresentação, identidade visual sofisticada e padronização do produto.</p>
+                        <h4 data-i18n="products.labels.highlights" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Destaques do produto</h4>
+                        <ul class="space-y-2 text-xs text-synth-text font-light">
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk150.h1">Apresentação reconstituída de 150 mg.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk150.h2">Volume declarado de 3,5 mL.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk150.h3">Embalagem premium com acabamento metálico e detalhes em azul.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk150.h4">Identificação clara e visual moderno.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk150.h5">Posicionamento diferenciado dentro da linha GHK-Cu.</span></li>
+                        </ul>
+                        <p data-i18n="products.ghk150.close" class="block mt-8 prod-close text-sm text-synth-blue font-light leading-relaxed">O diferencial SYNTHEXIS: uma apresentação que combina sofisticação, identidade visual consistente e atenção aos detalhes.</p>
+                    </div>
+                </article>
+                </div>
+
+                <!-- Demais produtos da linha -->
+                <div class="prod-grid">
+                <article class="glass-card prod-card rounded-3xl overflow-hidden relative scroll-reveal flex flex-col">
+                    <div class="prod-img">
+                        <img src="./images/ghk200.webp" srcset="./images/ghk200-640w.webp 640w, ./images/ghk200.webp 1024w" sizes="(min-width: 1024px) 600px, 100vw" alt="Synthexis GHK-Cu 200 mg Micronized Dry Blend" width="1024" height="1536" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-empty')">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between gap-3 mb-4"><span class="text-[10px] font-mono tracking-widest uppercase text-synth-muted font-semibold">Micronized Dry Blend</span></div>
+                        <h3 class="font-sora text-2xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">200 mg</span></h3>
+                        <p data-i18n="products.ghk200.tag" class="block text-sm font-sora text-synth-blue mb-4 font-medium">Alta concentração em uma apresentação premium.</p>
+                        
+                        <p data-i18n="products.ghk200.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-6">O GHK-Cu 200 mg integra a linha de produtos da SYNTHEXIS com apresentação em pó liofilizado, posicionamento de alta concentração e identidade visual inspirada na biotecnologia de alto padrão.</p>
+                        <h4 data-i18n="products.labels.highlights" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Destaques do produto</h4>
+                        <ul class="space-y-2 text-xs text-synth-text font-light">
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk200.h1">Apresentação de 200 mg.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk200.h2">Formulação identificada como Micronized Dry Blend.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk200.h3">Embalagem sofisticada em branco, azul e acabamento metálico.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk200.h4">Design alinhado à identidade visual da linha.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk200.h5">Apresentação voltada à identificação e rastreabilidade do produto, conforme documentação aplicável.</span></li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="glass-card prod-card rounded-3xl overflow-hidden relative scroll-reveal flex flex-col">
+                    <div class="prod-img">
+                        <img src="./images/ghk100.webp" srcset="./images/ghk100-640w.webp 640w, ./images/ghk100.webp 1200w" sizes="(min-width: 1024px) 600px, 100vw" alt="Synthexis GHK-Cu 100 mg Micronized Dry Blend" width="1200" height="1090" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-empty')">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between gap-3 mb-4"><span class="text-[10px] font-mono tracking-widest uppercase text-synth-muted font-semibold">Micronized Dry Blend</span></div>
+                        <h3 class="font-sora text-2xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">100 mg</span></h3>
+                        <p data-i18n="products.ghk100.tag" class="block text-sm font-sora text-synth-blue mb-4 font-medium">Equilíbrio entre apresentação, qualidade e identidade de marca.</p>
+                        
+                        <p data-i18n="products.ghk100.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-6">O GHK-Cu 100 mg foi desenvolvido para compor a linha SYNTHEXIS com uma apresentação moderna e padronizada, mantendo a estética premium e a consistência visual características da marca.</p>
+                        <h4 data-i18n="products.labels.highlights" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Destaques do produto</h4>
+                        <ul class="space-y-2 text-xs text-synth-text font-light">
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk100.h1">Apresentação de 100 mg.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk100.h2">Formulação identificada como Micronized Dry Blend.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk100.h3">Embalagem com acabamento premium.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk100.h4">Identidade visual consistente com o restante da linha.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk100.h5">Formato compacto e identificação objetiva.</span></li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="glass-card prod-card rounded-3xl overflow-hidden relative scroll-reveal flex flex-col">
+                    <div class="prod-img">
+                        <img src="./images/ghk50mg.webp" srcset="./images/ghk50mg-640w.webp 640w, ./images/ghk50mg.webp 1200w" sizes="(min-width: 1024px) 600px, 100vw" alt="Synthexis GHK-Cu 50 mg Micronized Dry Blend" width="1200" height="1090" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-empty')">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between gap-3 mb-4"><span class="text-[10px] font-mono tracking-widest uppercase text-synth-muted font-semibold">Micronized Dry Blend</span></div>
+                        <h3 class="font-sora text-2xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">50 mg</span></h3>
+                        <p data-i18n="products.ghk50.tag" class="block text-sm font-sora text-synth-blue mb-4 font-medium">Precisão na apresentação e sofisticação em cada detalhe.</p>
+                        
+                        <p data-i18n="products.ghk50.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-6">O GHK-Cu 50 mg complementa o portfólio SYNTHEXIS com uma versão de menor concentração, preservando o padrão visual, o acabamento e a apresentação característicos da linha.</p>
+                        <h4 data-i18n="products.labels.highlights" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Destaques do produto</h4>
+                        <ul class="space-y-2 text-xs text-synth-text font-light">
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk50.h1">Apresentação de 50 mg.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk50.h2">Formulação identificada como Micronized Dry Blend.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk50.h3">Embalagem premium com detalhes em azul.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk50.h4">Design padronizado com os demais produtos GHK-Cu.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.ghk50.h5">Identificação clara da concentração.</span></li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="glass-card prod-card rounded-3xl overflow-hidden relative scroll-reveal flex flex-col">
+                    <div class="prod-img">
+                        <img src="./images/ghk-serum.webp" srcset="./images/ghk-serum-640w.webp 640w, ./images/ghk-serum.webp 1024w" sizes="(min-width: 1024px) 600px, 100vw" alt="Synthexis GHK-Cu Sérum Facial 30 mL" width="1024" height="1536" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('is-empty')">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between gap-3 mb-4"><span data-i18n="products.serum.type" class="text-[10px] font-mono tracking-widest uppercase text-synth-muted font-semibold">Sérum Facial</span></div>
+                        <h3 class="font-sora text-2xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">30 mL</span></h3>
+                        <p data-i18n="products.serum.tag" class="block text-sm font-sora text-synth-blue mb-4 font-medium">Ciência cosmética e cuidado diário em uma apresentação sofisticada.</p>
+                        
+                        <p data-i18n="products.serum.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-6">O sérum facial SYNTHEXIS GHK-Cu foi concebido para integrar a linha cosmética da marca, combinando apresentação premium, aplicação tópica e uma proposta de cuidado voltada à aparência e à qualidade da pele.</p>
+                        <h4 data-i18n="products.labels.highlights" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Destaques do produto</h4>
+                        <ul class="space-y-2 text-xs text-synth-text font-light">
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.serum.h1">Apresentação de 30 mL.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.serum.h2">Formato cosmético com conta-gotas.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.serum.h3">Aplicação tópica.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.serum.h4">Embalagem premium com detalhes metálicos e azuis.</span></li>
+                            <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="products.serum.h5">Posicionamento voltado à rotina de cuidados com a pele.</span></li>
+                        </ul>
+                        <p data-i18n="products.serum.close" class="block mt-8 prod-close text-sm text-synth-blue font-light leading-relaxed">Uma proposta de beleza com identidade científica: sofisticação, cuidado e inovação em uma apresentação alinhada à SYNTHEXIS BIOTECH.</p>
+                    </div>
+                </article>
                 </div>
             </div>
         </section>
@@ -162,82 +273,17 @@
                 </div>
 
                 <div class="image-container w-full mb-20 scroll-reveal p-4 bg-white">
-                    <img src="./images/portvariasfotos.webp" srcset="./images/portvariasfotos-640w.webp 640w, ./images/portvariasfotos.webp 1536w" sizes="(min-width: 1024px) 1280px, 100vw" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
+                    <img src="./images/tx-80.webp" srcset="./images/tx-80.webp 640w, ./images/tx-80.webp 1536w" sizes="(min-width: 1024px) 1280px, 100vw" alt="Linha Completa Synthexis Biotech" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-auto rounded-lg">
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-                    <!-- Destaque Premium 1 -->
-                    <div class="glass-card p-10 rounded-3xl relative overflow-hidden group scroll-reveal border-l-4 border-l-synth-blue shadow-lg">
-                        <div class="absolute inset-0 bg-gradient-to-br from-synth-lightbl to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <span data-i18n="portfolio.labels.premium" class="px-3 py-1 bg-synth-blue/10 text-synth-blue border border-synth-blue/20 rounded text-[10px] font-mono tracking-widest uppercase mb-6 inline-block font-semibold">Destaque Premium</span>
-                        <h3 class="font-sora text-3xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">50mg</span></h3>
-                        <p data-i18n="portfolio.ghk.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-8">É um peptídeo naturalmente encontrado no organismo humano...</p>
-                        
-                        <div class="space-y-6 mb-8">
-                            <div>
-                                <h4 data-i18n="portfolio.labels.benefits" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
-                                <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben1">Apoio à revitalização da pele e potencial auxílio na regeneração cutânea</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben2">Interesse em protocolos de rejuvenescimento estético</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.ben3">Suporte à qualidade e aparência dos tecidos</span></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 data-i18n="portfolio.labels.diffs" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
-                                <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif1">Alta afinidade biológica com processos naturais do organismo</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk50.dif2">Elevado padrão de pureza e controle de qualidade</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
-                            <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
-                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc">Utilizado conforme protocolo específico, geralmente após reconstituição adequada.</span> <strong data-i18n="portfolio.labels.appProto">Protocolo entregue após a compra!</strong></span>
-                        </div>
-                    </div>
-
-                    <!-- Destaque Premium 2 -->
-                    <div class="glass-card p-10 rounded-3xl relative overflow-hidden group scroll-reveal border-l-4 border-l-synth-blue shadow-lg">
-                        <div class="absolute inset-0 bg-gradient-to-br from-synth-lightbl to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <span data-i18n="portfolio.labels.premium" class="px-3 py-1 bg-synth-blue/10 text-synth-blue border border-synth-blue/20 rounded text-[10px] font-mono tracking-widest uppercase mb-6 inline-block font-semibold">Destaque Premium</span>
-                        <h3 class="font-sora text-3xl text-synth-text mb-2 font-medium">GHK-Cu <span class="text-synth-muted font-light">100mg</span></h3>
-                        <p data-i18n="portfolio.ghk.desc" class="text-sm text-synth-muted font-light leading-relaxed mb-8">É um peptídeo naturalmente encontrado no organismo humano...</p>
-                        
-                        <div class="space-y-6 mb-8">
-                            <div>
-                                <h4 data-i18n="portfolio.labels.benefits" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Principais Benefícios</h4>
-                                <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben1">Interesse crescente em protocolos capilares avançados</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben2">Aplicação frequente em estratégias de longevidade e bem-estar</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.ben3">Complemento para cuidados estéticos de alta performance</span></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 data-i18n="portfolio.labels.diffs" class="text-xs font-sora text-synth-blue uppercase tracking-widest mb-3 font-semibold">Diferenciais</h4>
-                                <ul class="space-y-2 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif1">Tecnologia moderna aplicada à pesquisa peptídica</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="microscope" class="w-4 h-4 text-synth-blue mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ghk100.dif2">Peptídeo amplamente reconhecido na área estética e capilar</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4 bg-synth-lightbl border border-synth-blue/10 rounded-xl">
-                            <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
-                            <span class="text-xs text-synth-text"><span data-i18n="portfolio.labels.appDesc">Utilizado conforme protocolo específico, geralmente após reconstituição adequada.</span> <strong data-i18n="portfolio.labels.appProto">Protocolo entregue após a compra!</strong></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- OUTROS PRODUTOS GRID -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">Ipamorelin</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GHK-CU 30ML</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.ipamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente estudado por sua interação com mecanismos relacionados à liberação do hormônio do crescimento.</p>
+                                <p data-i18n="portfolio.ipamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Sérum facial amplamente estudado por sua interação com mecanismos relacionados à liberação do hormônio do crescimento.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben1">Suporte à recuperação física</span></li>
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.ipamorelin.ben2">Auxílio na manutenção da composição corporal</span></li>
@@ -254,13 +300,13 @@
                 
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">Glow</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">TX-80</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
                                 <p data-i18n="portfolio.glow.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Blend desenvolvido com foco em estética avançada, qualidade da pele e revitalização geral.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben1">Aparência mais saudável da pele</span></li>
+                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben1">Ajuda no Emagrecimento</span></li>
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben2">Apoio à hidratação e luminosidade</span></li>
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben3">Potencial suporte à regeneração tecidual</span></li>
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.glow.ben4">Contribuição para protocolos de rejuvenescimento</span></li>
@@ -275,7 +321,7 @@
                 
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">Klow</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GHK-CU 50MG</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
@@ -296,7 +342,7 @@
                 
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">CBL-514</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GHK-CU 100MG</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
@@ -316,7 +362,7 @@
                 
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GH Frag</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GHK-CU 150MG</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
@@ -336,11 +382,11 @@
                 
                     <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
                         <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">Tesamorelin</h3></div>
+                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">GHK-CU 200MG</h3></div>
                         </div>
                         <div class="flex-grow flex flex-col justify-between">
                             <div>
-                                <p data-i18n="portfolio.tesamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo estudado por sua capacidade de estimular mecanismos relacionados ao hormônio do crescimento.</p>
+                                <p data-i18n="portfolio.tesamorelin.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">NOVO LANCAMENTO estudado por sua capacidade de estimular mecanismos relacionados ao hormônio do crescimento.</p>
                                 <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben1">Suporte à composição corporal</span></li>
                                     <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.tesamorelin.ben2">Interesse em protocolos de longevidade</span></li>
@@ -354,31 +400,12 @@
                             </div>
                         </div>
                     </div>
-                
-                    <div class="glass-card p-8 rounded-2xl flex flex-col relative group overflow-hidden scroll-reveal hover:border-synth-blue/30">
-                        <div class="w-full py-8 mb-6 rounded-xl bg-gradient-to-br from-synth-lightbl to-white flex items-center justify-center border border-synth-blue/10 shadow-inner">
-                            <div class="text-center"><h3 class="font-sora text-2xl text-synth-blue font-medium">BPC-157</h3></div>
-                        </div>
-                        <div class="flex-grow flex flex-col justify-between">
-                            <div>
-                                <p data-i18n="portfolio.bpc157.desc" class="text-xs text-synth-muted font-light leading-relaxed mb-6">Peptídeo amplamente conhecido em estudos relacionados à recuperação e regeneração tecidual.</p>
-                                <ul class="space-y-2 mb-8 text-xs text-synth-text font-light">
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben1">Suporte aos processos naturais de recuperação</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben2">Interesse em protocolos voltados para tecidos musculares e articulares</span></li>
-                                    <li class="flex gap-2 items-start"><i data-lucide="check" class="w-3 h-3 text-synth-accent mt-0.5 shrink-0"></i> <span data-i18n="portfolio.bpc157.ben3">Potencial auxílio em estratégias de recuperação esportiva</span></li>
-                                </ul>
-                            </div>
-                            <div class="pt-4 border-t border-synth-border mt-auto">
-                                <span data-i18n="portfolio.labels.app" class="text-[10px] uppercase tracking-widest text-synth-blue font-mono block mb-1 font-semibold">Forma de Aplicação</span>
-                                <span data-i18n="portfolio.labels.appProto" class="text-xs text-synth-text font-medium">Protocolo entregue após a compra!</span>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Sessão Laboratório -->
+        <!-- Secao Laboratório -->
         <section id="lab" class="py-24 px-6 border-t border-synth-border relative bg-synth-card">
             <div class="max-w-4xl mx-auto scroll-reveal">
                 <div class="text-center mb-16">
@@ -481,10 +508,7 @@
         </div>
     </footer>
 
-    <!-- Supabase com carregamento assíncrono atrasado (defer) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    
-   <script src="./js/i18n-translations.js" defer></script>
-<script src="./js/main.js" defer></script>
+   <script src="./js/i18n-translations.js?v=20261018" defer></script>
+<script src="./js/main.js?v=20261018" defer></script>
 </body>
 </html>
