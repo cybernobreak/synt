@@ -4,42 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Protocolo Não Localizado | SYNTHEXIS</title>
-    <link rel="icon" type="image/jpeg" href="./images/logo.jpeg">
-    
-    <!-- Fonts -->
+    <link rel="icon" type="image/webp" href="/images/favicon.webp">
+    <meta name="robots" content="noindex">
+
+    <!-- Fontes sem bloquear a renderização (apenas pesos usados: 300/400/500/600) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        synth: {
-                            bg: '#ffffff',
-                            card: '#f8fafc',
-                            text: '#0f172a',
-                            muted: '#64748b',
-                            blue: '#1d4ed8',
-                            lightbl: '#eff6ff',
-                            border: '#e2e8f0',
-                            accent: '#3b82f6'
-                        }
-                    },
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap"></noscript>
+
+    <!-- CSS do Tailwind já compilado. Caminho ABSOLUTO (/): o GitHub Pages serve este 404 em
+         qualquer URL (ex.: /algo/errado), e caminhos relativos (./) quebrariam o estilo. -->
+    <link rel="stylesheet" href="/style.css?v=20261018">
 
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.525.0" defer></script>
 
     <style>
         body {
@@ -84,7 +64,7 @@
     <!-- Header Minimalista -->
     <header class="w-full h-20 border-b border-synth-border px-6 md:px-12 flex items-center justify-center fixed top-0 left-0 glass-panel z-40">
         <div class="flex items-center gap-3">
-            <img src="./images/logo.jpeg" alt="Synthexis Logo" class="h-10 w-auto object-contain mix-blend-multiply" style="filter: contrast(1.1) brightness(1.05);">
+            <img src="/images/logo.webp" alt="Synthexis Logo" width="300" height="200" class="h-10 w-auto object-contain mix-blend-multiply" style="filter: contrast(1.1) brightness(1.05);">
             <span class="font-sora tracking-widest text-xs uppercase font-semibold text-synth-text">SYNTHEXIS</span>
         </div>
     </header>
@@ -107,7 +87,7 @@
                 A página ou documento que você tentou acessar não existe em nossa base de dados ou o link foi alterado.
             </p>
             
-            <a href="/index.html" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-synth-blue text-white rounded-full text-xs font-sora hover:bg-blue-800 transition-all shadow-md group">
+            <a href="/" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-synth-blue text-white rounded-full text-xs font-sora hover:bg-blue-800 transition-all shadow-md group">
                 <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
                 <span class="uppercase tracking-widest font-medium">Retornar à Base</span>
             </a>
@@ -116,7 +96,7 @@
     </main>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => { if (typeof lucide !== 'undefined') lucide.createIcons(); });
     </script>
 </body>
 </html>
