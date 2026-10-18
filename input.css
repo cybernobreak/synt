@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ===== CSS próprio do site (não é Tailwind) ===== */
+.noise-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:50;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
+.glass-panel{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,232,240,.8)}
+.glass-card,.protocol-card{background:#fff;border:1px solid #e2e8f0;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -1px rgba(0,0,0,.03)}
+.glass-card:hover,.protocol-card:hover{border-color:#cbd5e1;box-shadow:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -2px rgba(0,0,0,.04);transform:translateY(-3px)}
+.text-blue-gradient{background:linear-gradient(to right,#1d4ed8,#3b82f6,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.image-container{position:relative;width:100%;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f8fafc;border:1px solid #e2e8f0}
+.image-container img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transition:transform .8s ease}
+.image-container:hover img{transform:scale(1.02)}
+.scroll-reveal,.hero-anim{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
+.scroll-reveal.is-visible,.hero-anim.is-visible{opacity:1;transform:translateY(0)}
+@media (prefers-reduced-motion:reduce){.scroll-reveal,.hero-anim{opacity:1;transform:none;transition:none}}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#f8fafc}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+
+.prod-featured-grid{display:grid;gap:2rem;grid-template-columns:1fr}
+.prod-img--hero{aspect-ratio:4/3}
+@media (min-width:900px){.prod-card.prod-card--hero{flex-direction:row}.prod-card--hero .prod-img{aspect-ratio:auto;flex:0 0 52%;border-bottom:0;border-right:1px solid #e2e8f0}.prod-card--hero .prod-img img{object-fit:cover}}
+.prod-grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.prod-card:hover{transform:none}
+.prod-img{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#f1f5f9;border-bottom:1px solid #e2e8f0;overflow:hidden}
+.prod-grid .prod-img{aspect-ratio:4/5}
+.prod-img img{width:100%;height:100%;object-fit:contain;transition:transform .8s ease}
+.prod-card:hover .prod-img img{transform:scale(1.03)}
+.prod-img.is-empty{background:#f8fafc url("./images/logo.webp") center/45% auto no-repeat}
+.prod-img.is-empty img{display:none}
+.prod-exclusive{padding:1rem 1.25rem;border-radius:.75rem;color:#fff;background:linear-gradient(135deg,#1d4ed8,#3b82f6);box-shadow:0 8px 20px -8px rgba(29,78,216,.55)}
+.prod-exclusive .block:first-child{opacity:.85}
+.prod-close{font-style:italic}
+
+/* .protocol-card usa o shorthand "border"; sem isto o filete azul de 4px (border-t-4 border-t-synth-blue) some após o build */
+.protocol-card.border-t-4{border-top-width:4px}
+.protocol-card.border-t-synth-blue{border-top-color:#1d4ed8}

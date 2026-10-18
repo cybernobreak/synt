@@ -1,7 +1,7 @@
 /** Configuração do Tailwind — cores e fontes exatas que o site já usa.
  *  Não precisa editar nada aqui, só colocar este arquivo na raiz do repositório. */
 module.exports = {
-  content: ["./index.html"],
+  content: ["./index.html", "./protocolo.html", "./404.html", "./js/main.js"],
   theme: {
     extend: {
       colors: {
