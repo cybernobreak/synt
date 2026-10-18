@@ -13,9 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     if (window.__i18nextReady) { startI18n(); } else { window.__i18nextInitFn = startI18n; }
-    const supabaseUrl = 'https://mumaaekhqobcspzvvqqf.supabase.co';
-    const supabaseKey = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
-    try { window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } catch (e) { }
+    initLazyFormScripts();
     if (typeof lucide !== 'undefined') lucide.createIcons();
     document.querySelectorAll('.hero-anim').forEach((el, i) => {
         el.style.transitionDelay = `${i * 0.12}s`;
@@ -31,6 +29,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
     document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
 });
+
+// =========================================================
+// Supabase + Cloudflare Turnstile só são baixados quando o
+// visitante chega perto do formulário (#contact) ou interage
+// com ele. Antes eram baixados/executados em toda visita,
+// mesmo para quem nunca chegava no formulário.
+// =========================================================
+const SUPABASE_URL = 'https://mumaaekhqobcspzvvqqf.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_KlUF1E3UDDNjXSRyHbdTWQ_q1NRIm70';
+let formScriptsPromise = null;
+
+function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+        const el = document.createElement('script');
+        el.src = src;
+        el.async = true;
+        el.onload = resolve;
+        el.onerror = () => reject(new Error('Falha ao carregar ' + src));
+        document.head.appendChild(el);
+    });
+}
+
+function loadFormScripts() {
+    if (formScriptsPromise) return formScriptsPromise;
+    formScriptsPromise = Promise.all([
+        loadScriptOnce('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'),
+        loadScriptOnce('https://challenges.cloudflare.com/turnstile/v0/api.js')
+    ]).then(() => {
+        try { window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) { }
+    }).catch(() => { formScriptsPromise = null; }); // permite tentar de novo
+    return formScriptsPromise;
+}
+
+function initLazyFormScripts() {
+    const contact = document.getElementById('contact');
+    if (!contact) return; // páginas sem formulário (protocolo.html, 404) não baixam nada
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            if (entries.some(e => e.isIntersecting)) { loadFormScripts(); io.disconnect(); }
+        }, { rootMargin: '800px 0px' });
+        io.observe(contact);
+    } else {
+        window.addEventListener('load', loadFormScripts);
+    }
+    contact.addEventListener('focusin', loadFormScripts, { once: true });
+}
 
 function updateContent() {
     document.querySelectorAll('[data-i18n]').forEach(element => { element.innerHTML = i18next.t(element.getAttribute('data-i18n')); });
@@ -51,6 +95,7 @@ async function enviarCadastro() {
     if(!btn) return;
     const span = btn.querySelector('span');
     const originalText = span.innerText;
+    await loadFormScripts();
     let turnstileToken;
     try { turnstileToken = turnstile.getResponse(); } catch (e) { alert("O sistema de segurança está inicializando."); return; }
     if (!turnstileToken) { alert("Aguarde a verificação de segurança."); return; }
@@ -84,8 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function loadVideo() {
         const source = document.createElement('source');
-        // IMPORTANTE: Ajuste o caminho "./vidprotocolo.mp4" conforme necessário
-        source.src = './vidprotocolo.mp4';
+        // O arquivo fica em /images (antes apontava para a raiz e o vídeo nunca carregava)
+        source.src = './images/vidprotocolo.mp4';
         source.type = 'video/mp4';
         videoElement.appendChild(source);
 
