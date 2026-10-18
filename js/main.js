@@ -76,9 +76,15 @@ function initLazyFormScripts() {
     contact.addEventListener('focusin', loadFormScripts, { once: true });
 }
 
+// Só troca o texto se a tradução existir e for texto simples; caso contrário mantém o texto original do HTML
+function safeT(key) {
+    if (!i18next.exists(key)) return null;
+    const v = i18next.t(key, { returnObjects: true });
+    return typeof v === 'string' ? v : null;
+}
 function updateContent() {
-    document.querySelectorAll('[data-i18n]').forEach(element => { element.innerHTML = i18next.t(element.getAttribute('data-i18n')); });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { element.placeholder = i18next.t(element.getAttribute('data-i18n-placeholder')); });
+    document.querySelectorAll('[data-i18n]').forEach(element => { const v = safeT(element.getAttribute('data-i18n')); if (v !== null) element.innerHTML = v; });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { const v = safeT(element.getAttribute('data-i18n-placeholder')); if (v !== null) element.placeholder = v; });
 }
 function changeLang(lang) { i18next.changeLanguage(lang).then(() => { updateContent(); updateFlag(lang); }); }
 function updateFlag(lang) {
